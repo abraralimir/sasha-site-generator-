@@ -83,85 +83,64 @@
   }
 }
 
-/* Fog Effect Styles */
 .scene-container {
-    perspective: 1000px;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    perspective: 1000px; /* Enables 3D transforms for depth */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .fog-layer {
     position: absolute;
-    width: 200%;
+    width: 200%; /* Wide for seamless drifting */
     height: 100%;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255, 255, 255, 0.05) 25%, 
-        rgba(255, 255, 255, 0.1) 50%, 
-        rgba(255, 255, 255, 0.05) 75%, 
-        transparent 100%
-    );
-    filter: blur(3px);
-    opacity: 0.4;
-    transform-style: preserve-3d;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    filter: blur(20px); /* Misty blur */
+    transform-style: preserve-3d; /* Enables 3D for layers */
     transition: transform 0.1s ease-out; /* Smooth cursor response */
+    mix-blend-mode: screen;
 }
 
 #fog1 {
-    top: 0;
-    transform: translateZ(-200px) translateX(-50%);
-    animation: approach-drift-1 30s ease-in-out infinite;
-    opacity: 0.3;
+    top: -10%;
+    transform: translateZ(-250px) translateX(-50%); /* Far layer */
+    animation: approach-drift-1 45s ease-in-out infinite;
+    opacity: 0.2;
 }
 
 #fog2 {
-    top: 20%;
-    transform: translateZ(-100px) translateX(0);
-    animation: approach-drift-2 40s reverse infinite;
-    opacity: 0.5;
-    background: linear-gradient(90deg, 
-        rgba(200, 200, 255, 0.03) 0%, 
-        rgba(255, 255, 255, 0.08) 50%, 
-        rgba(200, 200, 255, 0.03) 100%
-    );
+    top: 10%;
+    transform: translateZ(-150px) translateX(-25%); /* Mid layer */
+    animation: approach-drift-2 35s reverse infinite;
+    opacity: 0.3;
+    filter: blur(30px);
 }
 
 #fog3 {
-    top: 40%;
-    transform: translateZ(-50px) translateX(-25%);
-    animation: approach-drift-3 35s ease-in-out infinite;
-    opacity: 0.2;
-    filter: blur(5px);
+    top: 30%;
+    transform: translateZ(-80px) translateX(0%); /* Near layer */
+    animation: approach-drift-3 40s ease-in-out infinite;
+    opacity: 0.25;
+    filter: blur(25px);
 }
 
 @keyframes approach-drift-1 {
-    0% {
-        transform: translateZ(-200px) translateX(-50%) rotateY(0deg);
-    }
-    50% {
-        transform: translateZ(-50px) translateX(0%) rotateY(5deg);
-    }
-    100% {
-        transform: translateZ(-200px) translateX(50%) rotateY(0deg);
-    }
+    0% { transform: translateZ(-250px) translateX(-50%) rotateY(0deg); }
+    50% { transform: translateZ(-100px) translateX(0%) rotateY(8deg); }
+    100% { transform: translateZ(-250px) translateX(50%) rotateY(0deg); }
 }
+
 @keyframes approach-drift-2 {
-    0% {
-        transform: translateZ(-100px) translateX(0%) rotateY(0deg);
-    }
-    50% {
-        transform: translateZ(-25px) translateX(25%) rotateY(-5deg);
-    }
-    100% {
-        transform: translateZ(-100px) translateX(-25%) rotateY(0deg);
-    }
+    0% { transform: translateZ(-150px) translateX(-25%) rotateY(0deg); }
+    50% { transform: translateZ(-50px) translateX(25%) rotateY(-8deg); }
+    100% { transform: translateZ(-150px) translateX(-25%) rotateY(0deg); }
 }
+
 @keyframes approach-drift-3 {
-    0% {
-        transform: translateZ(-50px) translateX(-25%) rotateY(0deg);
-    }
-    50% {
-        transform: translateZ(0px) translateX(0%) rotateY(3deg);
-    }
-    100% {
-        transform: translateZ(-50px) translateX(25%) rotateY(0deg);
-    }
+    0% { transform: translateZ(-80px) translateX(0%) rotateY(0deg); }
+    50% { transform: translateZ(-20px) translateX(-20%) rotateY(6deg); }
+    100% { transform: translateZ(-80px) translateX(20%) rotateY(0deg); }
 }

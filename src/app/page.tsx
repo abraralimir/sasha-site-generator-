@@ -58,74 +58,52 @@ export default function LandingPage() {
     document.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', handleResize);
 
-    let animationFrameId: number;
-
     const updateFogWithCursor = () => {
-      const deltaX = (mouseX - centerX) / centerX;
-      const deltaY = (mouseY - centerY) / centerY;
+        const deltaX = (mouseX - centerX) / centerX;
+        const deltaY = (mouseY - centerY) / centerY;
 
-      fogLayers.forEach((layer, index) => {
-        const depthFactor = 1 - (index * 0.3);
-        const rotX = deltaY * 5 * depthFactor;
-        const rotY = -deltaX * 5 * depthFactor;
-        const translateX = deltaX * 20 * depthFactor;
+        fogLayers.forEach((layer, index) => {
+            const baseZ = [-250, -150, -80][index] || 0;
+            const depthFactor = 1 - (index * 0.25);
+            const rotX = deltaY * 8 * depthFactor;
+            const rotY = -deltaX * 8 * depthFactor;
+            
+            // Get the current transform from the CSS animation
+            const computedStyle = getComputedStyle(layer);
+            const animationTransform = computedStyle.transform;
 
-        // We temporarily override the animation transform. The animation will kick back in
-        // when the cursor stops moving and the inline style is removed.
-        // To make this work, we need to combine the animation's current transform
-        // with our new cursor-based transform. This part is complex and omitted
-        // for this simpler example, which will stop the CSS animation during mouse move.
-        const baseTransform = getComputedStyle(layer).getPropertyValue('transform');
+            // We apply cursor-based rotation on top of the animation's current state.
+            // This requires parsing the matrix, which is complex. A simpler approach
+            // is to let the animation handle the base movement and let JS handle
+            // the interactive rotation. We will set the base animation transform in CSS
+            // and only modify rotation and a slight translation here.
+            layer.style.transform = `${animationTransform} rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
 
-        layer.style.transition = 'transform 0.1s ease-out';
-        layer.style.transform = `
-          translateX(${translateX}px) 
-          rotateX(${rotX}deg) 
-          rotateY(${rotY}deg)
-        `;
-      });
-
-      animationFrameId = requestAnimationFrame(updateFogWithCursor);
+        requestAnimationFrame(updateFogWithCursor);
     };
-
-    updateFogWithCursor();
+    
+    // Use a timeout to avoid collision with initial animation styles
+    setTimeout(() => {
+      requestAnimationFrame(updateFogWithCursor);
+    }, 100);
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div className="bg-[linear-gradient(to_bottom,_#000428,_#004e92)] text-white overflow-x-hidden">
-      <div className="relative w-full h-screen scene-container flex justify-center items-center">
-        {/* Fog layers for approaching effect */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          <div
-            ref={(el) => (fogLayersRef.current[0] = el)}
-            className="fog-layer"
-            id="fog1"
-          ></div>
-          <div
-            ref={(el) => (fogLayersRef.current[1] = el)}
-            className="fog-layer"
-            id="fog2"
-          ></div>
-          <div
-            ref={(el) => (fogLayersRef.current[2] = el)}
-            className="fog-layer"
-            id="fog3"
-          ></div>
-        </div>
-
+    <div className="bg-[linear-gradient(to_bottom,_#000000,_#111111)] text-white overflow-x-hidden">
+      <div className="scene-container">
         {/* Central Grok element */}
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative z-10 text-center" style={{ transformStyle: 'preserve-3d', transform: 'translateZ(0px)' }}>
-          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.5)]">
+          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
             SASHA SITE GENERATOR
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
@@ -144,9 +122,28 @@ export default function LandingPage() {
             </Button>
           </motion.div>
         </motion.div>
+
+        {/* Fog layers for approaching effect - Placed after text to allow blend mode to work */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div
+            ref={(el) => (fogLayersRef.current[0] = el)}
+            className="fog-layer"
+            id="fog1"
+          ></div>
+          <div
+            ref={(el) => (fogLayersRef.current[1] = el)}
+            className="fog-layer"
+            id="fog2"
+          ></div>
+          <div
+            ref={(el) => (fogLayersRef.current[2] = el)}
+            className="fog-layer"
+            id="fog3"
+          ></div>
+        </div>
       </div>
 
-      <section className="relative z-10 py-20 md:py-32 bg-black/30">
+      <section className="relative z-20 py-20 md:py-32 bg-black/50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="font-headline text-4xl md:text-5xl font-bold">What it can do</h2>
@@ -191,7 +188,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-10 py-20 md:py-32 text-center bg-black/30">
+      <section className="relative z-20 py-20 md:py-32 text-center bg-black/50">
         <div className="container mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
