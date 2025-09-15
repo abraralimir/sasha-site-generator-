@@ -1,41 +1,68 @@
 'use client';
 
-import { useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Vector3 } from 'three';
+import { useRef, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { ShaderMaterial, Vector2 } from 'three';
+// @ts-ignore
+import fragmentShader from './fog.glsl';
+
+const vertexShader = `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
 
 function Fog() {
-  const { size, viewport } = useThree();
-  const fogRef = useRef<any>();
-  const mouse = useRef(new Vector3());
+  const materialRef = useRef<ShaderMaterial>(null);
+
+  const uniforms = useMemo(() => ({
+    u_time: { value: 0.0 },
+    u_mouse: { value: new Vector2(0.5, 0.5) },
+    u_resolution: { value: new Vector2(window.innerWidth, window.innerHeight) },
+  }), []);
 
   useFrame((state) => {
-    const target = new Vector3(
-      (state.mouse.x * viewport.width) / 2,
-      (state.mouse.y * viewport.height) / 2,
-      0
-    );
-    mouse.current.lerp(target, 0.02);
-
-    if (fogRef.current) {
-      fogRef.current.position.copy(mouse.current);
-      fogRef.current.scale.setScalar(
-        1 + (Math.sin(state.clock.elapsedTime * 0.5) * 0.2)
-      );
+    if (materialRef.current) {
+      materialRef.current.uniforms.u_time.value = state.clock.getElapsedTime();
     }
   });
 
+  const handleMouseMove = (event:any) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.u_mouse.value.x = event.clientX / window.innerWidth;
+      materialRef.current.uniforms.u_mouse.value.y = 1.0 - event.clientY / window.innerHeight;
+    }
+  };
+
+  const handleResize = () => {
+    if (materialRef.current) {
+        materialRef.current.uniforms.u_resolution.value.x = window.innerWidth;
+        materialRef.current.uniforms.u_resolution.value.y = window.innerHeight;
+    }
+  };
+
+  window.addEventListener('mousemove', handleMouseMove);
+  window.addEventListener('resize', handleResize);
+  
   return (
-    <group>
-      <pointLight ref={fogRef} intensity={200} color="white" distance={size.width / 2} />
-    </group>
+    <mesh>
+      <planeGeometry args={[10, 10]} />
+      <shaderMaterial
+        ref={materialRef}
+        uniforms={uniforms}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        transparent
+      />
+    </mesh>
   );
 }
 
 export default function Scene() {
   return (
-    <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
-      <ambient_light intensity={0.5} />
+    <Canvas camera={{ position: [0, 0, 1], fov: 75 }}>
       <Fog />
     </Canvas>
   );
