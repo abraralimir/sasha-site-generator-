@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Code, Eye, Archive, Sparkles } from 'lucide-react';
+import { Eye, Archive, Sparkles, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useSiteBuilder } from '@/hooks/useSiteBuilder';
 import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 export default function BuilderHeader() {
   const { isEditMode, setIsEditMode } = useSiteBuilder();
@@ -26,6 +27,12 @@ export default function BuilderHeader() {
         <h1 className="font-headline text-xl font-semibold tracking-tight">Agentic SiteForge</h1>
       </div>
       <div className="flex items-center gap-4">
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/">
+            <Home className="mr-2 h-4 w-4" />
+            Home
+          </Link>
+        </Button>
         <div className="flex items-center space-x-2">
           <Switch id="edit-mode" checked={isEditMode} onCheckedChange={setIsEditMode} />
           <Label htmlFor="edit-mode" className="text-sm font-medium">Edit Mode</Label>
