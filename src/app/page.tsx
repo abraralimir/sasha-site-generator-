@@ -1,6 +1,6 @@
 'use client';
 import { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { LayoutDashboard, Wand2, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -35,6 +35,16 @@ const features = [
 
 export default function LandingPage() {
   const fogLayersRef = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollContainerRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: scrollContainerRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.3], [4, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const x = useTransform(scrollYProgress, [0.3, 0.7], ['0%', '-100%']);
 
   useEffect(() => {
     const fogLayers = fogLayersRef.current.filter(Boolean) as HTMLDivElement[];
@@ -68,22 +78,15 @@ export default function LandingPage() {
             const rotX = deltaY * 8 * depthFactor;
             const rotY = -deltaX * 8 * depthFactor;
             
-            // Get the current transform from the CSS animation
             const computedStyle = getComputedStyle(layer);
             const animationTransform = computedStyle.transform;
 
-            // We apply cursor-based rotation on top of the animation's current state.
-            // This requires parsing the matrix, which is complex. A simpler approach
-            // is to let the animation handle the base movement and let JS handle
-            // the interactive rotation. We will set the base animation transform in CSS
-            // and only modify rotation and a slight translation here.
             layer.style.transform = `${animationTransform} rotateX(${rotX}deg) rotateY(${rotY}deg)`;
         });
 
         requestAnimationFrame(updateFogWithCursor);
     };
     
-    // Use a timeout to avoid collision with initial animation styles
     setTimeout(() => {
       requestAnimationFrame(updateFogWithCursor);
     }, 100);
@@ -97,7 +100,6 @@ export default function LandingPage() {
   return (
     <div className="bg-[linear-gradient(to_bottom,_#000000,_#111111)] text-white overflow-x-hidden">
       <div className="scene-container">
-        {/* Central Grok element */}
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -123,7 +125,6 @@ export default function LandingPage() {
           </motion.div>
         </motion.div>
 
-        {/* Fog layers for approaching effect - Placed after text to allow blend mode to work */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div
             ref={(el) => (fogLayersRef.current[0] = el)}
@@ -142,17 +143,26 @@ export default function LandingPage() {
           ></div>
         </div>
       </div>
+      
+      <div ref={scrollContainerRef} className="relative z-10 h-[250vh] bg-black/50">
+        <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+            <motion.div style={{ x }} className="flex">
+                <motion.h2 style={{ scale, opacity }} className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold text-center">
+                    <span className="block">What it can do</span>
+                </motion.h2>
+            </motion.div>
+        </div>
+      </div>
 
       <section className="relative z-20 py-20 md:py-32 bg-black/50">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold">What it can do</h2>
-            <p className="mt-4 text-lg text-neutral-300">
+          <div className="text-center max-w-3xl mx-auto -mt-48 mb-16 md:mb-24">
+             <p className="mt-4 text-lg text-neutral-300">
               Sasha Site Generator combines powerful AI with an intuitive editor to bring your ideas to life.
             </p>
           </div>
 
-          <div className="mt-16 md:mt-24 space-y-24">
+          <div className="space-y-24">
             {features.map((feature, index) => {
               const direction = index % 2 === 0 ? 'flex-row' : 'flex-row-reverse';
               return (
