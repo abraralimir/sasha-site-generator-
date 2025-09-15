@@ -42,8 +42,8 @@ export default function LandingPage() {
     offset: ['start start', 'end start'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.3], [4, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const scale = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 4, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.3], [0, 1, 1]);
   const x = useTransform(scrollYProgress, [0.3, 0.7], ['0%', '-100%']);
 
   useEffect(() => {
