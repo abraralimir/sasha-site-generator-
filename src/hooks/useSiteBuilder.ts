@@ -122,11 +122,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     setIsEditMode,
   };
 
-  return (
-    <SiteBuilderContext.Provider value={contextValue}>
-      {children}
-    </SiteBuilderContext.Provider>
-  );
+  return React.createElement(SiteBuilderContext.Provider, { value: contextValue }, children);
 };
 
 export const useSiteBuilder = () => {

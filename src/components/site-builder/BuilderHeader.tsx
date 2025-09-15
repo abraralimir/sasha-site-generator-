@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Code, Eye, FileZip, Sparkles } from 'lucide-react';
+import { Code, Eye, Archive, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -35,7 +35,7 @@ export default function BuilderHeader() {
           Preview
         </Button>
         <Button size="sm" onClick={handleDownload}>
-          <FileZip className="mr-2 h-4 w-4" />
+          <Archive className="mr-2 h-4 w-4" />
           Download Code
         </Button>
       </div>
