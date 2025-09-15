@@ -106,24 +106,24 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   
   const activePage = pages.find((p) => p.id === activePageId);
 
+  const contextValue: SiteBuilderContextType = {
+    pages,
+    activePageId,
+    setActivePageId,
+    addPage,
+    updatePageName,
+    deletePage,
+    activePage,
+    addComponent,
+    updateComponentContent,
+    deleteComponent,
+    setComponents,
+    isEditMode,
+    setIsEditMode,
+  };
+
   return (
-    <SiteBuilderContext.Provider
-      value={{
-        pages,
-        activePageId,
-        setActivePageId,
-        addPage,
-        updatePageName,
-        deletePage,
-        activePage,
-        addComponent,
-        updateComponentContent,
-        deleteComponent,
-        setComponents,
-        isEditMode,
-        setIsEditMode,
-      }}
-    >
+    <SiteBuilderContext.Provider value={contextValue}>
       {children}
     </SiteBuilderContext.Provider>
   );
