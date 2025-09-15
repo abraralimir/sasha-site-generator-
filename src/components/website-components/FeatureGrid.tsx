@@ -27,7 +27,7 @@ export default function FeatureGrid(props: WebsiteComponent) {
             <EditableText componentId={id} field="headline" initialValue={content.headline} />
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            <EditableText componentId={id} field="subheading" initialValue={content.subheading} />
+            <EditableText componentId={id} field="subheading" initialValue={content.subheading} as="span" />
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">
@@ -53,7 +53,7 @@ export default function FeatureGrid(props: WebsiteComponent) {
                     </CardTitle>
                     </CardHeader>
                     <CardContent className="text-muted-foreground">
-                        <EditableText componentId={id} field={`features[${index}].description`} initialValue={feature.description} />
+                        <EditableText componentId={id} field={`features[${index}].description`} initialValue={feature.description} as="p" />
                     </CardContent>
                 </Card>
             )

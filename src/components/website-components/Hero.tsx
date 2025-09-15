@@ -25,10 +25,10 @@ export default function Hero(props: WebsiteComponent) {
       <div className="relative z-10 flex h-full flex-col items-center justify-center text-center">
         <div className="container px-4">
           <h1 className="font-headline text-4xl font-bold tracking-tight md:text-6xl">
-            <EditableText componentId={id} field="headline" initialValue={content.headline} />
+            <EditableText componentId={id} field="headline" initialValue={content.headline} as="span" />
           </h1>
           <p className="mt-4 max-w-3xl mx-auto text-lg text-primary-foreground/80 md:text-xl">
-             <EditableText componentId={id} field="subheading" initialValue={content.subheading} />
+             <EditableText componentId={id} field="subheading" initialValue={content.subheading} as="span" />
           </p>
           <div className="mt-8 flex justify-center gap-4">
             <Button size="lg" className="font-semibold">

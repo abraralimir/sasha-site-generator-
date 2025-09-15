@@ -18,7 +18,7 @@ export default function CallToAction(props: WebsiteComponent) {
               <EditableText componentId={id} field="headline" initialValue={content.headline} />
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              <EditableText componentId={id} field="subheading" initialValue={content.subheading} />
+              <EditableText componentId={id} field="subheading" initialValue={content.subheading} as="span" />
             </p>
             <div className="mt-6">
               <Button size="lg" className="font-semibold">
