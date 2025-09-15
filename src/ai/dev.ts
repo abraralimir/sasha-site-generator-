@@ -1,1 +1,5 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/generate-website-theme.ts';
+import '@/ai/flows/modify-theme-content.ts';
