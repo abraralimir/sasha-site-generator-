@@ -43,9 +43,9 @@ export default function LandingPage() {
   return (
     <div ref={containerRef} className="bg-black text-white relative isolate overflow-hidden">
       <div className="fixed inset-0 -z-10 h-full w-full bg-black">
-        <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,255,255,0.05),rgba(255,255,255,0))] animate-fade-in-out-1"></div>
-        <div className="absolute bottom-0 right-[-20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,255,255,0.05),rgba(255,255,255,0))] animate-fade-in-out-2"></div>
-        <div className="absolute bottom-[-20%] left-0 right-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,255,255,0.08),rgba(255,255,255,0))] animate-fade-in-out-3"></div>
+        <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,255,255,0.15),rgba(255,255,255,0))] animate-fade-in-out-1"></div>
+        <div className="absolute bottom-0 right-[-20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,255,255,0.1),rgba(255,255,255,0))] animate-fade-in-out-2"></div>
+        <div className="absolute bottom-[-20%] left-0 right-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_farthest-side,rgba(255,255,255,0.12),rgba(255,255,255,0))] animate-fade-in-out-3"></div>
       </div>
       <div className="fixed inset-0 -z-20 h-full w-full bg-black [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#3399FF_100%)]" />
 
