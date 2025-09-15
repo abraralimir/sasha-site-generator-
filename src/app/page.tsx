@@ -42,7 +42,7 @@ export default function LandingPage() {
     offset: ['start start', 'end start'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 4, 1]);
+  const scale = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 2, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.1, 0.3], [0, 1, 1]);
   const x = useTransform(scrollYProgress, [0.3, 0.7], ['0%', '-100%']);
 
@@ -79,7 +79,7 @@ export default function LandingPage() {
             const rotY = -deltaX * 8 * depthFactor;
             
             const computedStyle = getComputedStyle(layer);
-            const animationTransform = computedStyle.transform;
+            const animationTransform = computedStyle.transform.replace(/matrix3d\((.+)\)/, '').trim();
 
             layer.style.transform = `${animationTransform} rotateX(${rotX}deg) rotateY(${rotY}deg)`;
         });
@@ -87,13 +87,12 @@ export default function LandingPage() {
         requestAnimationFrame(updateFogWithCursor);
     };
     
-    setTimeout(() => {
-      requestAnimationFrame(updateFogWithCursor);
-    }, 100);
+    let frameId = requestAnimationFrame(updateFogWithCursor);
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(frameId);
     };
   }, []);
 
