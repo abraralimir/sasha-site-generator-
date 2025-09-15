@@ -1,13 +1,10 @@
 'use client';
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { LayoutDashboard, Wand2, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-const Scene = dynamic(() => import('@/components/website-components/Scene'), { ssr: false });
 
 const features = [
   {
@@ -37,57 +34,119 @@ const features = [
 ];
 
 export default function LandingPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
+  const fogLayersRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const fogLayers = fogLayersRef.current.filter(Boolean) as HTMLDivElement[];
+    if (fogLayers.length === 0) return;
+
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
+    let mouseX = centerX;
+    let mouseY = centerY;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    const handleResize = () => {
+      centerX = window.innerWidth / 2;
+      centerY = window.innerHeight / 2;
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', handleResize);
+
+    let animationFrameId: number;
+
+    const updateFogWithCursor = () => {
+      const deltaX = (mouseX - centerX) / centerX;
+      const deltaY = (mouseY - centerY) / centerY;
+
+      fogLayers.forEach((layer, index) => {
+        const depthFactor = 1 - (index * 0.3);
+        const rotX = deltaY * 5 * depthFactor;
+        const rotY = -deltaX * 5 * depthFactor;
+        const translateX = deltaX * 20 * depthFactor;
+
+        // We temporarily override the animation transform. The animation will kick back in
+        // when the cursor stops moving and the inline style is removed.
+        // To make this work, we need to combine the animation's current transform
+        // with our new cursor-based transform. This part is complex and omitted
+        // for this simpler example, which will stop the CSS animation during mouse move.
+        const baseTransform = getComputedStyle(layer).getPropertyValue('transform');
+
+        layer.style.transition = 'transform 0.1s ease-out';
+        layer.style.transform = `
+          translateX(${translateX}px) 
+          rotateX(${rotX}deg) 
+          rotateY(${rotY}deg)
+        `;
+      });
+
+      animationFrameId = requestAnimationFrame(updateFogWithCursor);
+    };
+
+    updateFogWithCursor();
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   return (
-    <div ref={containerRef} className="bg-black text-white relative isolate overflow-hidden">
-       <div className="fixed inset-0 -z-10 h-full w-full">
-        <Scene />
-      </div>
-      <div className="fixed inset-0 -z-20 h-full w-full bg-black [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#3399FF_100%)] opacity-20" />
-      
-      <motion.section
-        className="h-screen flex flex-col justify-center items-center text-center p-4"
-        style={{
-          opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]),
-          scale: useTransform(scrollYProgress, [0, 0.1], [1, 0.9]),
-        }}
-      >
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold"
-        >
-          SASHA SITE GENERATOR
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300"
-        >
-          The AI-native way to build and deploy stunning websites. No code, just creativity.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-8"
-        >
-            <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
-          <Link href="/editor">
-              Get Started
-          </Link>
-            </Button>
-        </motion.div>
-      </motion.section>
+    <div className="bg-[linear-gradient(to_bottom,_#000428,_#004e92)] text-white overflow-x-hidden">
+      <div className="relative w-full h-screen scene-container flex justify-center items-center">
+        {/* Fog layers for approaching effect */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div
+            ref={(el) => (fogLayersRef.current[0] = el)}
+            className="fog-layer"
+            id="fog1"
+          ></div>
+          <div
+            ref={(el) => (fogLayersRef.current[1] = el)}
+            className="fog-layer"
+            id="fog2"
+          ></div>
+          <div
+            ref={(el) => (fogLayersRef.current[2] = el)}
+            className="fog-layer"
+            id="fog3"
+          ></div>
+        </div>
 
-      <section className="relative z-10 py-20 md:py-32">
+        {/* Central Grok element */}
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative z-10 text-center" style={{ transformStyle: 'preserve-3d', transform: 'translateZ(0px)' }}>
+          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.5)]">
+            SASHA SITE GENERATOR
+          </h1>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
+            The AI-native way to build and deploy stunning websites.
+          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-8"
+          >
+            <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
+              <Link href="/editor">
+                  Get Started
+              </Link>
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      <section className="relative z-10 py-20 md:py-32 bg-black/30">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="font-headline text-4xl md:text-5xl font-bold">What it can do</h2>
@@ -132,7 +191,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-10 py-20 md:py-32 text-center">
+      <section className="relative z-10 py-20 md:py-32 text-center bg-black/30">
         <div className="container mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

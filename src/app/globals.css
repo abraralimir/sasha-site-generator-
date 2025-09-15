@@ -82,3 +82,86 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Fog Effect Styles */
+.scene-container {
+    perspective: 1000px;
+}
+
+.fog-layer {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.05) 25%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        rgba(255, 255, 255, 0.05) 75%, 
+        transparent 100%
+    );
+    filter: blur(3px);
+    opacity: 0.4;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out; /* Smooth cursor response */
+}
+
+#fog1 {
+    top: 0;
+    transform: translateZ(-200px) translateX(-50%);
+    animation: approach-drift-1 30s ease-in-out infinite;
+    opacity: 0.3;
+}
+
+#fog2 {
+    top: 20%;
+    transform: translateZ(-100px) translateX(0);
+    animation: approach-drift-2 40s reverse infinite;
+    opacity: 0.5;
+    background: linear-gradient(90deg, 
+        rgba(200, 200, 255, 0.03) 0%, 
+        rgba(255, 255, 255, 0.08) 50%, 
+        rgba(200, 200, 255, 0.03) 100%
+    );
+}
+
+#fog3 {
+    top: 40%;
+    transform: translateZ(-50px) translateX(-25%);
+    animation: approach-drift-3 35s ease-in-out infinite;
+    opacity: 0.2;
+    filter: blur(5px);
+}
+
+@keyframes approach-drift-1 {
+    0% {
+        transform: translateZ(-200px) translateX(-50%) rotateY(0deg);
+    }
+    50% {
+        transform: translateZ(-50px) translateX(0%) rotateY(5deg);
+    }
+    100% {
+        transform: translateZ(-200px) translateX(50%) rotateY(0deg);
+    }
+}
+@keyframes approach-drift-2 {
+    0% {
+        transform: translateZ(-100px) translateX(0%) rotateY(0deg);
+    }
+    50% {
+        transform: translateZ(-25px) translateX(25%) rotateY(-5deg);
+    }
+    100% {
+        transform: translateZ(-100px) translateX(-25%) rotateY(0deg);
+    }
+}
+@keyframes approach-drift-3 {
+    0% {
+        transform: translateZ(-50px) translateX(-25%) rotateY(0deg);
+    }
+    50% {
+        transform: translateZ(0px) translateX(0%) rotateY(3deg);
+    }
+    100% {
+        transform: translateZ(-50px) translateX(25%) rotateY(0deg);
+    }
+}
