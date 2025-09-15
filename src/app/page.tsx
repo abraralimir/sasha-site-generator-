@@ -5,9 +5,6 @@ import { LayoutDashboard, Wand2, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-const Scene = dynamic(() => import('@/components/website-components/Scene'), { ssr: false });
 
 const features = [
   {
@@ -44,10 +41,8 @@ export default function LandingPage() {
   });
 
   return (
-    <div ref={containerRef} className="bg-black text-white relative">
-      <div className="fixed top-0 left-0 w-full h-screen -z-10">
-        <Scene />
-      </div>
+    <div ref={containerRef} className="bg-black text-white relative isolate overflow-hidden">
+      <div className="fixed inset-0 -z-10 h-full w-full bg-black [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#3399FF_100%)]" />
 
       <motion.section
         className="h-screen flex flex-col justify-center items-center text-center p-4"
