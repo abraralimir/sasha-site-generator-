@@ -20,10 +20,51 @@ const GenerateFullWebsiteInputSchema = z.object({
 
 export type GenerateFullWebsiteInput = z.infer<typeof GenerateFullWebsiteInputSchema>;
 
+// Define specific content schemas for each component type
+const HeaderContentSchema = z.object({
+  brandName: z.string(),
+  navItems: z.array(z.object({ label: z.string() })),
+  buttonText: z.string(),
+});
+
+const HeroContentSchema = z.object({
+  headline: z.string(),
+  subheading: z.string(),
+  button1Text: z.string(),
+  button2Text: z.string(),
+});
+
+const FeatureGridContentSchema = z.object({
+  headline: z.string(),
+  subheading: z.string(),
+  features: z.array(z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string(),
+  })),
+});
+
+const CallToActionContentSchema = z.object({
+  headline: z.string(),
+  subheading: z.string(),
+  buttonText: z.string(),
+});
+
+const FooterContentSchema = z.object({
+  brandName: z.string(),
+  copyright: z.string(),
+});
+
 const ComponentSchema = z.object({
   id: z.string(),
   type: z.enum(['Header', 'Hero', 'FeatureGrid', 'CallToAction', 'Footer']),
-  content: z.record(z.any()),
+  content: z.union([
+      HeaderContentSchema,
+      HeroContentSchema,
+      FeatureGridContentSchema,
+      CallToActionContentSchema,
+      FooterContentSchema
+  ]),
 });
 
 const PageSchema = z.object({
