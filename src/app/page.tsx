@@ -42,9 +42,10 @@ export default function LandingPage() {
     offset: ['start start', 'end start'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 2, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.3], [0, 1, 1]);
-  const x = useTransform(scrollYProgress, [0.3, 0.7], ['0%', '-100%']);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+  const y = useTransform(scrollYProgress, [0.9, 1], ['0%', '-100%']);
+
 
   useEffect(() => {
     const fogLayers = fogLayersRef.current.filter(Boolean) as HTMLDivElement[];
@@ -143,23 +144,29 @@ export default function LandingPage() {
         </div>
       </div>
       
-      <div ref={scrollContainerRef} className="relative z-10 h-[250vh] bg-black/50">
+      <div ref={scrollContainerRef} className="relative z-10 h-[150vh] bg-black">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-            <motion.div style={{ x }} className="flex">
-                <motion.h2 style={{ scale, opacity }} className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold text-center">
-                    <span className="block">What it can do</span>
+            <motion.div style={{ y }} className="flex flex-col items-center text-center">
+                <motion.h2 style={{ scale, opacity }} className="font-headline text-5xl md:text-7xl font-bold">
+                    What it can do
                 </motion.h2>
             </motion.div>
         </div>
       </div>
 
-      <section className="relative z-20 py-20 md:py-32 bg-black/50">
+      <section className="relative z-20 py-20 md:py-32 bg-black">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto -mt-48 mb-16 md:mb-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.8 }}
+            className="text-center max-w-3xl mx-auto -mt-32 mb-16 md:mb-24"
+          >
              <p className="mt-4 text-lg text-neutral-300">
               Sasha Site Generator combines powerful AI with an intuitive editor to bring your ideas to life.
             </p>
-          </div>
+          </motion.div>
 
           <div className="space-y-24">
             {features.map((feature, index) => {
@@ -197,7 +204,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-20 py-20 md:py-32 text-center bg-black/50">
+      <section className="relative z-20 py-20 md:py-32 text-center bg-black">
         <div className="container mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
