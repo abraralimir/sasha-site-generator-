@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader, Wand2 } from 'lucide-react';
-import { useSiteBuilder } from '@/hooks/useSiteBuilder';
+import { useSiteBuilder, SiteBuilderProvider } from '@/hooks/useSiteBuilder';
 import { generateFullWebsite } from '@/ai/flows/generate-full-website';
 
 const steps = [
@@ -22,7 +22,7 @@ const variants = {
   exit: { opacity: 0, y: -30 },
 };
 
-export default function GeneratePage() {
+function GeneratePageContent() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({ name: '', description: '' });
   const [isLoading, setIsLoading] = useState(false);
@@ -125,7 +125,7 @@ export default function GeneratePage() {
               <Button
                 size="lg"
                 onClick={handleNext}
-                disabled={currentStep === 0 && !formData.name || currentStep === 1 && !formData.description}
+                disabled={(currentStep === 0 && !formData.name) || (currentStep === 1 && !formData.description)}
                 className="font-semibold bg-white text-black hover:bg-neutral-200"
               >
                 {currentStep === steps.length - 2 ? 'Generate Website' : 'Continue'}
@@ -136,5 +136,13 @@ export default function GeneratePage() {
         </motion.div>
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function GeneratePage() {
+  return (
+    <SiteBuilderProvider>
+      <GeneratePageContent />
+    </SiteBuilderProvider>
   );
 }
