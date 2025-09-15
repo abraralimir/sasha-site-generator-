@@ -118,7 +118,7 @@ export default function LandingPage() {
             className="mt-8"
           >
             <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
-              <Link href="/editor">
+              <Link href="/generate">
                   Get Started
               </Link>
             </Button>
@@ -232,7 +232,7 @@ export default function LandingPage() {
             className="mt-8"
           >
             <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
-                <Link href="/editor">
+                <Link href="/generate">
                     Get Started
                 </Link>
             </Button>

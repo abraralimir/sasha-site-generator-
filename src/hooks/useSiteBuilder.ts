@@ -7,6 +7,7 @@ import { set } from 'lodash';
 
 interface SiteBuilderContextType {
   pages: WebsitePage[];
+  setPages: (pages: WebsitePage[]) => void;
   activePageId: string;
   setActivePageId: (id: string) => void;
   addPage: (name: string) => void;
@@ -24,9 +25,30 @@ interface SiteBuilderContextType {
 const SiteBuilderContext = createContext<SiteBuilderContextType | undefined>(undefined);
 
 export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
-  const [pages, setPages] = useState<WebsitePage[]>(initialSiteData.pages);
-  const [activePageId, setActivePageId] = useState<string>(initialSiteData.pages[0]?.id || '');
+  const [pages, setPages] = useState<WebsitePage[]>(() => {
+    if (typeof window !== 'undefined') {
+      const savedSite = localStorage.getItem('siteData');
+      if (savedSite) {
+        const parsedSite = JSON.parse(savedSite);
+        if (parsedSite.pages && parsedSite.pages.length > 0) {
+          return parsedSite.pages;
+        }
+      }
+    }
+    return initialSiteData.pages;
+  });
+
+  const [activePageId, setActivePageId] = useState<string>(pages[0]?.id || '');
   const [isEditMode, setIsEditMode] = useState(true);
+
+  const handleSetPages = (newPages: WebsitePage[]) => {
+    setPages(newPages);
+    if (typeof window !== 'undefined') {
+        const siteData = { pages: newPages };
+        localStorage.setItem('siteData', JSON.stringify(siteData));
+    }
+  }
+
 
   const addPage = (name: string) => {
     const newPage: WebsitePage = {
@@ -35,16 +57,15 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
       slug: name.toLowerCase().replace(/\s+/g, '-'),
       components: [],
     };
-    setPages([...pages, newPage]);
+    handleSetPages([...pages, newPage]);
     setActivePageId(newPage.id);
   };
 
   const updatePageName = (id: string, newName: string) => {
-    setPages(
-      pages.map((p) =>
+    const newPages = pages.map((p) =>
         p.id === id ? { ...p, name: newName, slug: newName.toLowerCase().replace(/\s+/g, '-') } : p
-      )
-    );
+      );
+    handleSetPages(newPages);
   };
   
   const deletePage = (id: string) => {
@@ -53,7 +74,8 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
     const newPages = pages.filter((p) => p.id !== id);
-    setPages(newPages);
+    handleSetPages(newPages);
+
     if (activePageId === id) {
       setActivePageId(newPages[0].id);
     }
@@ -71,25 +93,23 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
 
     const updatedPages = [...pages];
     updatedPages[pageIndex].components.push(newComponent);
-    setPages(updatedPages);
+    handleSetPages(updatedPages);
   };
 
   const updateComponentContent = (pageId: string, componentId: string, field: string, value: any) => {
-    setPages(pages => {
-      const newPages = JSON.parse(JSON.stringify(pages));
-      const page = newPages.find((p: WebsitePage) => p.id === pageId);
-      if (page) {
-        const component = page.components.find((c: WebsiteComponent) => c.id === componentId);
-        if (component) {
-          set(component, `content.${field}`, value);
-        }
+    const newPages = JSON.parse(JSON.stringify(pages));
+    const page = newPages.find((p: WebsitePage) => p.id === pageId);
+    if (page) {
+      const component = page.components.find((c: WebsiteComponent) => c.id === componentId);
+      if (component) {
+        set(component, `content.${field}`, value);
       }
-      return newPages;
-    });
+    }
+    handleSetPages(newPages);
   };
 
   const deleteComponent = (pageId: string, componentId: string) => {
-    setPages(pages.map(p => {
+    const newPages = pages.map(p => {
         if (p.id === pageId) {
             return {
                 ...p,
@@ -97,17 +117,20 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
             };
         }
         return p;
-    }));
+    });
+    handleSetPages(newPages);
   };
 
   const setComponents = (pageId: string, components: WebsiteComponent[]) => {
-      setPages(pages.map(p => p.id === pageId ? {...p, components} : p));
+      const newPages = pages.map(p => p.id === pageId ? {...p, components} : p);
+      handleSetPages(newPages);
   }
   
   const activePage = pages.find((p) => p.id === activePageId);
 
   const contextValue: SiteBuilderContextType = {
     pages,
+    setPages: handleSetPages,
     activePageId,
     setActivePageId,
     addPage,
