@@ -16,3 +16,4 @@ export type ImageContent = {
   alt: string;
   imageHint?: string;
 }
+

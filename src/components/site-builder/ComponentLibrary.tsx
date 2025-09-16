@@ -11,14 +11,15 @@ const availableComponents = [
   { type: 'Article', name: 'Article', icon: <Newspaper className="h-4 w-4" /> },
   { type: 'CallToAction', name: 'Call to Action', icon: <Type className="h-4 w-4" /> },
   { type: 'Scene', name: 'Animated Scene', icon: <Waves className="h-4 w-4" /> },
+  { type: 'Scene', name: 'Interactive Scene', icon: <Waves className="h-4 w-4" />, content: { isInteractive: true } },
   { type: 'Footer', name: 'Footer', icon: <LayoutTemplate className="h-4 w-4" /> },
 ];
 
 export default function ComponentLibrary() {
   const { addComponent, activePageId } = useSiteBuilder();
 
-  const handleAddComponent = (type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article' | 'Scene') => {
-    addComponent(activePageId, type);
+  const handleAddComponent = (type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article' | 'Scene', content?: Record<string, any>) => {
+    addComponent(activePageId, type, content);
   };
 
   return (
@@ -26,10 +27,10 @@ export default function ComponentLibrary() {
       <p className="px-2 text-xs font-semibold text-muted-foreground">ADD COMPONENTS</p>
       {availableComponents.map((comp) => (
         <Button
-          key={comp.type}
+          key={comp.name}
           variant="ghost"
           className="justify-start gap-2"
-          onClick={() => handleAddComponent(comp.type as any)}
+          onClick={() => handleAddComponent(comp.type as any, comp.content)}
         >
           {comp.icon}
           <span>{comp.name}</span>

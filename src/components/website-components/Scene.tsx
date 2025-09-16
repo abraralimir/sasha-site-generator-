@@ -10,6 +10,7 @@ import type { WebsiteComponent } from '@/lib/types';
 
 export default function Scene(props: WebsiteComponent) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { isInteractive } = props.content;
 
   useEffect(() => {
     if (!containerRef.current || containerRef.current.children.length > 0) {
@@ -17,6 +18,7 @@ export default function Scene(props: WebsiteComponent) {
     }
 
     const currentRef = containerRef.current;
+    let mouse = new THREE.Vector2(0.5, 0.5);
 
     // --- Setup ---
     const scene = new THREE.Scene();
@@ -44,6 +46,8 @@ export default function Scene(props: WebsiteComponent) {
         time: { value: 0 },
         fogColor: { value: new THREE.Color(0xffffff) },
         resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        mouse: { value: new THREE.Vector2(0.5, 0.5) },
+        isInteractive: { value: isInteractive || false },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -56,6 +60,8 @@ export default function Scene(props: WebsiteComponent) {
         uniform float time;
         uniform vec3 fogColor;
         uniform vec2 resolution;
+        uniform vec2 mouse;
+        uniform bool isInteractive;
         varying vec2 vUv;
 
         // 2D Random
@@ -106,8 +112,13 @@ export default function Scene(props: WebsiteComponent) {
             st.x *= resolution.x / resolution.y; // aspect ratio correction
             
             vec2 q = vec2(0.);
-            q.x = fbm( st + 0.00*time);
-            q.y = fbm( st + vec2(1.0));
+            if (isInteractive) {
+              q.x = fbm(st + mouse);
+              q.y = fbm(st + vec2(1.0) + mouse);
+            } else {
+              q.x = fbm(st + 0.00*time);
+              q.y = fbm(st + vec2(1.0));
+            }
 
             vec2 r = vec2(0.);
             r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*time );
@@ -145,6 +156,16 @@ export default function Scene(props: WebsiteComponent) {
     const clock = new THREE.Clock();
     let animationFrameId: number;
 
+    // --- Mouse Listener ---
+    const handleMouseMove = (event: MouseEvent) => {
+        mouse.x = event.clientX / window.innerWidth;
+        mouse.y = 1.0 - (event.clientY / window.innerHeight);
+    };
+
+    if (isInteractive) {
+        window.addEventListener('mousemove', handleMouseMove);
+    }
+
     // --- Animate ---
     function animate() {
       animationFrameId = requestAnimationFrame(animate);
@@ -166,6 +187,10 @@ export default function Scene(props: WebsiteComponent) {
       
       fogNoisePass.uniforms.fogColor.value.copy(blended);
       fogNoisePass.uniforms.time.value = time;
+      if (isInteractive) {
+        fogNoisePass.uniforms.mouse.value.lerp(mouse, 0.05);
+      }
+
 
       composer.render();
     }
@@ -184,13 +209,16 @@ export default function Scene(props: WebsiteComponent) {
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      if (isInteractive) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
       cancelAnimationFrame(animationFrameId);
       if (renderer && renderer.domElement && currentRef.contains(renderer.domElement)) {
         currentRef.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };
-  }, []);
+  }, [isInteractive]);
 
   return <div ref={containerRef} className='absolute inset-0 z-0 h-screen' />;
 }
