@@ -31,8 +31,8 @@ export default function PageManager() {
 
   const handleAddPage = () => {
     const newPageName = prompt('Enter new page name:');
-    if (newPageName) {
-      addPage(newPageName);
+    if (newPageName && newPageName.trim()) {
+      addPage(newPageName.trim());
     }
   };
   
@@ -64,13 +64,13 @@ export default function PageManager() {
       {pages.map((page) => (
         <div key={page.id} className={cn(
           "group flex items-center rounded-md pr-2 transition-colors",
-          activePageId === page.id && 'bg-accent text-accent-foreground'
+          activePageId === page.id && 'bg-sidebar-accent text-sidebar-accent-foreground'
           )}>
           <Button
             variant="ghost"
             className={cn(
-              "w-full justify-start gap-2 flex-grow",
-              activePageId === page.id && 'bg-accent text-accent-foreground hover:bg-accent/90'
+              "w-full justify-start gap-2 flex-grow h-8 text-sm",
+              activePageId === page.id && 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/90'
             )}
             onClick={() => setActivePageId(page.id)}
           >
@@ -91,7 +91,7 @@ export default function PageManager() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100">
+              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 data-[state=open]:opacity-100">
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -102,7 +102,7 @@ export default function PageManager() {
               </DropdownMenuItem>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <DropdownMenuItem onSelect={(e) => e.preventDefault()} disabled={pages.length <= 1} className="text-destructive focus:text-destructive">
                         <Trash className="mr-2 h-4 w-4" />
                         Delete
                     </DropdownMenuItem>
@@ -116,7 +116,7 @@ export default function PageManager() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => deletePage(page.id)}>Delete</AlertDialogAction>
+                    <AlertDialogAction onClick={() => deletePage(page.id)} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -124,7 +124,7 @@ export default function PageManager() {
           </DropdownMenu>
         </div>
       ))}
-      <Button variant="ghost" className="mt-2 justify-start gap-2" onClick={handleAddPage}>
+      <Button variant="ghost" className="mt-2 justify-start gap-2 text-sm h-8" onClick={handleAddPage}>
         <PlusCircle className="h-4 w-4" />
         Add New Page
       </Button>

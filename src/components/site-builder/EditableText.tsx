@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useSiteBuilder } from '@/hooks/useSiteBuilder';
 import { AiContentToolbar } from './AiContentToolbar';
@@ -26,9 +26,11 @@ export default function EditableText({
 }: EditableTextProps) {
   const { isEditMode, updateComponentContent, activePageId } = useSiteBuilder();
   const ref = useRef<HTMLElement>(null);
+  const [currentValue, setCurrentValue] = useState(initialValue);
 
   useEffect(() => {
-    if (ref.current) {
+    setCurrentValue(initialValue);
+    if (ref.current && ref.current.textContent !== initialValue) {
       ref.current.textContent = initialValue;
     }
   }, [initialValue]);
@@ -41,6 +43,13 @@ export default function EditableText({
       }
     }
   };
+  
+  const handleInput = (e: React.FormEvent<HTMLElement>) => {
+    // This is to ensure the react state is also up-to-date, mainly for the AiContentToolbar
+     if (ref.current) {
+        setCurrentValue(ref.current.textContent || '');
+     }
+  };
 
   const commonProps = {
     className: cn(
@@ -48,6 +57,7 @@ export default function EditableText({
       isEditMode && 'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm cursor-text'
     ),
     onBlur: isEditMode ? handleBlur : undefined,
+    onInput: isEditMode ? handleInput : undefined,
     suppressContentEditableWarning: true,
   };
   
@@ -58,11 +68,12 @@ export default function EditableText({
         componentType={componentType}
         field={field}
         fieldDescription={fieldDescription}
-        initialContent={initialValue}
+        initialContent={currentValue}
       >
         <Tag
           ref={ref}
           contentEditable={isEditMode}
+          dangerouslySetInnerHTML={{ __html: initialValue }}
           {...commonProps}
         />
       </AiContentToolbar>
@@ -70,6 +81,6 @@ export default function EditableText({
   }
 
   return (
-    <Tag {...commonProps}>{initialValue}</Tag>
+    <Tag {...commonProps} dangerouslySetInnerHTML={{ __html: initialValue }} />
   );
 }

@@ -3,14 +3,14 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import type { WebsitePage, WebsiteComponent } from '@/lib/types';
 import { initialSiteData } from '@/lib/initial-site-data';
-import { set } from 'lodash';
+import { set, cloneDeep } from 'lodash';
 
 interface SiteBuilderContextType {
   pages: WebsitePage[];
   setPages: (pages: WebsitePage[]) => void;
   activePageId: string;
   setActivePageId: (id: string) => void;
-  addPage: (page: WebsitePage) => void;
+  addPage: (pageOrName: WebsitePage | string) => void;
   updatePageName: (id: string, newName: string) => void;
   deletePage: (id: string) => void;
   activePage: WebsitePage | undefined;
@@ -51,14 +51,19 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     const savedSite = localStorage.getItem('siteData');
     let loadedPages: WebsitePage[];
     if (savedSite) {
-      const parsedSite = JSON.parse(savedSite);
-      if (parsedSite.pages && parsedSite.pages.length > 0) {
-        loadedPages = parsedSite.pages;
-      } else {
-        loadedPages = initialSiteData.pages;
+      try {
+        const parsedSite = JSON.parse(savedSite);
+        if (parsedSite.pages && parsedSite.pages.length > 0) {
+          loadedPages = parsedSite.pages;
+        } else {
+          loadedPages = cloneDeep(initialSiteData.pages);
+        }
+      } catch (e) {
+        console.error("Failed to parse site data from localStorage", e);
+        loadedPages = cloneDeep(initialSiteData.pages);
       }
     } else {
-      loadedPages = initialSiteData.pages;
+      loadedPages = cloneDeep(initialSiteData.pages);
     }
     setPages(loadedPages);
     setActivePageId(loadedPages[0]?.id || '');
@@ -66,24 +71,40 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const saveToLocalStorage = (newPages: WebsitePage[]) => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && isLoaded) {
         const siteData = { pages: newPages };
         localStorage.setItem('siteData', JSON.stringify(siteData));
       }
   }
 
-  const debouncedSave = React.useCallback(debounce(saveToLocalStorage, 1000), []);
+  const debouncedSave = React.useCallback(debounce(saveToLocalStorage, 500), [isLoaded]);
 
   const handleSetPages = (newPages: WebsitePage[]) => {
     setPages(newPages);
     debouncedSave(newPages);
   }
 
-  const addPage = (newPage: WebsitePage) => {
+  const addPage = (pageOrName: WebsitePage | string) => {
+    let newPage: WebsitePage;
+    if (typeof pageOrName === 'string') {
+        const slug = `/${pageOrName.toLowerCase().replace(/\s+/g, '-')}`;
+        newPage = {
+            id: `page-${Date.now()}`,
+            name: pageOrName,
+            slug: slug,
+            components: [
+                { id: `comp-header-${Date.now()}`, type: 'Header', content: cloneDeep(initialSiteData.defaultComponentContent.Header) },
+                { id: `comp-footer-${Date.now()}`, type: 'Footer', content: cloneDeep(initialSiteData.defaultComponentContent.Footer) },
+            ],
+        };
+    } else {
+        newPage = pageOrName;
+    }
+    
     const newPages = [...pages, newPage];
-    setPages(newPages);
+    setPages(newPages); // Eagerly update UI
     setActivePageId(newPage.id);
-    saveToLocalStorage(newPages); // Save immediately for new page
+    localStorage.setItem('siteData', JSON.stringify({ pages: newPages })); // Save immediately
   };
 
   const updatePageName = (id: string, newName: string) => {
@@ -99,8 +120,8 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
     const newPages = pages.filter((p) => p.id !== id);
-    setPages(newPages);
-    saveToLocalStorage(newPages); // Save immediately on delete
+    setPages(newPages); // Eagerly update UI
+    localStorage.setItem('siteData', JSON.stringify({ pages: newPages })); // Save immediately on delete
 
     if (activePageId === id) {
       setActivePageId(newPages[0].id);
@@ -108,33 +129,36 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addComponent = (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article') => {
+    if (!pageId) return;
     const pageIndex = pages.findIndex(p => p.id === pageId);
     if (pageIndex === -1) return;
     
     const newComponent: WebsiteComponent = {
-      id: `comp-${Date.now()}`,
+      id: `comp-${type}-${Date.now()}`,
       type,
-      content: initialSiteData.defaultComponentContent[type],
+      content: cloneDeep(initialSiteData.defaultComponentContent[type]),
     };
 
-    const updatedPages = [...pages];
+    const updatedPages = cloneDeep(pages);
     updatedPages[pageIndex].components.push(newComponent);
     handleSetPages(updatedPages);
   };
 
   const updateComponentContent = (pageId: string, componentId: string, field: string, value: any) => {
-    const newPages = JSON.parse(JSON.stringify(pages));
-    const page = newPages.find((p: WebsitePage) => p.id === pageId);
-    if (page) {
-      const component = page.components.find((c: WebsiteComponent) => c.id === componentId);
-      if (component) {
-        set(component, `content.${field}`, value);
-      }
-    }
-    handleSetPages(newPages);
+     if (!pageId) return;
+     const newPages = cloneDeep(pages);
+     const page = newPages.find((p: WebsitePage) => p.id === pageId);
+     if (page) {
+       const component = page.components.find((c: WebsiteComponent) => c.id === componentId);
+       if (component) {
+         set(component, `content.${field}`, value);
+         handleSetPages(newPages);
+       }
+     }
   };
 
   const deleteComponent = (pageId: string, componentId: string) => {
+    if (!pageId) return;
     const newPages = pages.map(p => {
         if (p.id === pageId) {
             return {
@@ -148,6 +172,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const setComponents = (pageId: string, components: WebsiteComponent[]) => {
+      if (!pageId) return;
       const newPages = pages.map(p => p.id === pageId ? {...p, components} : p);
       handleSetPages(newPages);
   }
@@ -161,7 +186,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   }, [isPreview]);
 
   if (!isLoaded) {
-      return null; // or a loading spinner
+      return React.createElement('div', { className: 'flex h-screen w-full items-center justify-center bg-background' }, 'Loading Editor...');
   }
 
   const contextValue: SiteBuilderContextType = {
