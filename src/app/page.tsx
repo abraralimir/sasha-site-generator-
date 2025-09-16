@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Wand2, Zap, Star } from 'lucide-react';
+import { LayoutDashboard, Wand2, Zap, Star, Smartphone, Laptop, Palette, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -24,25 +24,34 @@ const features = [
     title: 'AI-Powered Content',
     description:
       'Generate engaging text and find the perfect images with our integrated AI assistant.',
-    imageUrl: 'https://picsum.photos/seed/ai-power/800/600',
-    imageHint: 'artificial intelligence brain'
   },
   {
     icon: <LayoutDashboard className="h-8 w-8 text-white" />,
     title: 'Drag & Drop Editor',
     description:
       'Effortlessly build and customize your site with an intuitive, real-time editor.',
-    imageUrl: 'https://picsum.photos/seed/drag-drop/800/600',
-    imageHint: 'web design grid'
   },
   {
     icon: <Zap className="h-8 w-8 text-white" />,
     title: 'Instant Deployment',
     description:
       'Download your complete website code and host it anywhere you want, with no restrictions.',
-    imageUrl: 'https://picsum.photos/seed/deploy/800/600',
-    imageHint: 'server database'
   },
+  {
+    icon: <div className="flex"><Smartphone className="h-8 w-8 text-white" /><Laptop className="h-8 w-8 text-white" /></div>,
+    title: 'Responsive Design',
+    description: 'Your site will look perfect on any device, from mobile phones to desktops.'
+  },
+  {
+    icon: <Palette className="h-8 w-8 text-white" />,
+    title: 'AI Theme Designer',
+    description: 'Describe your brand\'s style, and let our AI generate a unique color theme for you.'
+  },
+  {
+    icon: <TrendingUp className="h-8 w-8 text-white" />,
+    title: 'SEO Optimized',
+    description: 'Built-in tools and suggestions to help you rank higher on search engines.'
+  }
 ];
 
 const testimonials = [
@@ -253,3 +262,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
