@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import type { WebsitePage, WebsiteComponent } from '@/lib/types';
 import { initialSiteData } from '@/lib/initial-site-data';
 import { set } from 'lodash';
@@ -20,35 +20,61 @@ interface SiteBuilderContextType {
   setComponents: (pageId: string, components: WebsiteComponent[]) => void;
   isEditMode: boolean;
   setIsEditMode: (isEditing: boolean) => void;
+  isPreview: boolean;
+  setIsPreview: (isPreviewing: boolean) => void;
 }
 
 const SiteBuilderContext = createContext<SiteBuilderContextType | undefined>(undefined);
 
-export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
-  const [pages, setPages] = useState<WebsitePage[]>(() => {
-    if (typeof window !== 'undefined') {
-      const savedSite = localStorage.getItem('siteData');
-      if (savedSite) {
-        const parsedSite = JSON.parse(savedSite);
-        if (parsedSite.pages && parsedSite.pages.length > 0) {
-          return parsedSite.pages;
-        }
-      }
-    }
-    return initialSiteData.pages;
-  });
+// Debounce function
+function debounce<F extends (...args: any[]) => void>(func: F, waitFor: number) {
+  let timeout: NodeJS.Timeout;
+  return (...args: Parameters<F>): void => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), waitFor);
+  };
+}
 
-  const [activePageId, setActivePageId] = useState<string>(pages[0]?.id || '');
+
+export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
+  const [pages, setPages] = useState<WebsitePage[]>([]);
+  const [activePageId, setActivePageId] = useState<string>('');
   const [isEditMode, setIsEditMode] = useState(true);
+  const [isPreview, setIsPreview] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Load from localStorage only on the client side
+    const savedSite = localStorage.getItem('siteData');
+    let loadedPages: WebsitePage[];
+    if (savedSite) {
+      const parsedSite = JSON.parse(savedSite);
+      if (parsedSite.pages && parsedSite.pages.length > 0) {
+        loadedPages = parsedSite.pages;
+      } else {
+        loadedPages = initialSiteData.pages;
+      }
+    } else {
+      loadedPages = initialSiteData.pages;
+    }
+    setPages(loadedPages);
+    setActivePageId(loadedPages[0]?.id || '');
+    setIsLoaded(true);
+  }, []);
+
+  const saveToLocalStorage = (newPages: WebsitePage[]) => {
+      if (typeof window !== 'undefined') {
+        const siteData = { pages: newPages };
+        localStorage.setItem('siteData', JSON.stringify(siteData));
+      }
+  }
+
+  const debouncedSave = React.useCallback(debounce(saveToLocalStorage, 1000), []);
 
   const handleSetPages = (newPages: WebsitePage[]) => {
     setPages(newPages);
-    if (typeof window !== 'undefined') {
-        const siteData = { pages: newPages };
-        localStorage.setItem('siteData', JSON.stringify(siteData));
-    }
+    debouncedSave(newPages);
   }
-
 
   const addPage = (name: string) => {
     const newPage: WebsitePage = {
@@ -57,8 +83,10 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
       slug: name.toLowerCase().replace(/\s+/g, '-'),
       components: [],
     };
-    handleSetPages([...pages, newPage]);
+    const newPages = [...pages, newPage];
+    setPages(newPages);
     setActivePageId(newPage.id);
+    saveToLocalStorage(newPages); // Save immediately for new page
   };
 
   const updatePageName = (id: string, newName: string) => {
@@ -74,7 +102,8 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
     const newPages = pages.filter((p) => p.id !== id);
-    handleSetPages(newPages);
+    setPages(newPages);
+    saveToLocalStorage(newPages); // Save immediately on delete
 
     if (activePageId === id) {
       setActivePageId(newPages[0].id);
@@ -128,6 +157,16 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   
   const activePage = pages.find((p) => p.id === activePageId);
 
+  useEffect(() => {
+    if(isPreview) {
+      setIsEditMode(false);
+    }
+  }, [isPreview]);
+
+  if (!isLoaded) {
+      return null; // or a loading spinner
+  }
+
   const contextValue: SiteBuilderContextType = {
     pages,
     setPages: handleSetPages,
@@ -143,6 +182,8 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     setComponents,
     isEditMode,
     setIsEditMode,
+    isPreview,
+    setIsPreview,
   };
 
   return React.createElement(SiteBuilderContext.Provider, { value: contextValue }, children);

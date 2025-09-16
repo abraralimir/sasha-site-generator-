@@ -7,7 +7,9 @@ import { AiContentToolbar } from './AiContentToolbar';
 
 interface EditableTextProps {
   componentId: string;
+  componentType: string;
   field: string;
+  fieldDescription: string;
   initialValue: string;
   className?: string;
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'span' | 'div';
@@ -15,7 +17,9 @@ interface EditableTextProps {
 
 export default function EditableText({
   componentId,
+  componentType,
   field,
+  fieldDescription,
   initialValue,
   className,
   as: Tag = 'div',
@@ -30,7 +34,7 @@ export default function EditableText({
   }, [initialValue]);
 
   const handleBlur = () => {
-    if (ref.current) {
+    if (ref.current && activePageId) {
       const newValue = ref.current.textContent || '';
       if (newValue !== initialValue) {
         updateComponentContent(activePageId, componentId, field, newValue);
@@ -49,7 +53,13 @@ export default function EditableText({
   
   if (isEditMode) {
     return (
-      <AiContentToolbar componentId={componentId} field={field} initialContent={initialValue}>
+      <AiContentToolbar 
+        componentId={componentId}
+        componentType={componentType}
+        field={field}
+        fieldDescription={fieldDescription}
+        initialContent={initialValue}
+      >
         <Tag
           ref={ref}
           contentEditable={isEditMode}

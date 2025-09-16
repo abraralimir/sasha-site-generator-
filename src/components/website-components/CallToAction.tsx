@@ -6,7 +6,7 @@ import type { WebsiteComponent } from '@/lib/types';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export default function CallToAction(props: WebsiteComponent) {
-  const { id, content } = props;
+  const { id, type, content } = props;
   const ctaImage = PlaceHolderImages.find(p => p.id === 'cta-image');
 
   return (
@@ -15,14 +15,14 @@ export default function CallToAction(props: WebsiteComponent) {
         <div className="items-center rounded-lg bg-card p-8 shadow-lg md:grid md:grid-cols-2 md:gap-8">
           <div className="text-center md:text-left">
             <h2 className="font-headline text-3xl font-bold tracking-tight text-card-foreground sm:text-4xl">
-              <EditableText componentId={id} field="headline" initialValue={content.headline} />
+              <EditableText componentId={id} componentType={type} field="headline" fieldDescription="CTA headline" initialValue={content.headline} />
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              <EditableText componentId={id} field="subheading" initialValue={content.subheading} as="span" />
+              <EditableText componentId={id} componentType={type} field="subheading" fieldDescription="CTA subheading" initialValue={content.subheading} as="span" />
             </p>
             <div className="mt-6">
               <Button size="lg" className="font-semibold">
-                <EditableText componentId={id} field="buttonText" initialValue={content.buttonText} as="span" />
+                <EditableText componentId={id} componentType={type} field="buttonText" fieldDescription="CTA button text" initialValue={content.buttonText} as="span" />
               </Button>
             </div>
           </div>

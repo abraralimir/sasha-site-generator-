@@ -16,7 +16,9 @@ const ModifyThemeContentInputSchema = z.object({
     .string()
     .describe('The content selected by the user for modification.'),
   theme: z.string().describe('The overall theme of the website.'),
-  pageContext: z.string().describe('The context of the page where content is being modified.')
+  pageContext: z.string().describe('The context of the page where content is being modified.'),
+  componentContext: z.string().describe('The type of component being edited (e.g., Hero, Header).'),
+  fieldDescription: z.string().describe('A description of the specific field being edited (e.g., "Main headline").')
 });
 
 export type ModifyThemeContentInput = z.infer<typeof ModifyThemeContentInputSchema>;
@@ -37,19 +39,28 @@ const modifyThemeContentPrompt = ai.definePrompt({
   name: 'modifyThemeContentPrompt',
   input: {schema: ModifyThemeContentInputSchema},
   output: {schema: ModifyThemeContentOutputSchema},
-  prompt: `You are an AI assistant specialized in suggesting content modifications for websites.
+  prompt: `You are an expert copywriter and AI assistant specialized in suggesting content modifications for websites. Your goal is to provide a single, high-quality alternative for the user-selected text.
 
-  The user has selected the following content on their website:
-  """{{selectedContent}}"""
+**Context:**
+- Website Theme: {{theme}}
+- Page Section: {{pageContext}}
+- Component Type: {{componentContext}}
+- Field: {{fieldDescription}}
 
-  The website has a "{{theme}}" theme, and this content is located in the "{{pageContext}}" section.
+**User's Original Content:**
+"""
+{{selectedContent}}
+"""
 
-  Please provide a single alternative version of the content, keeping the theme and context in mind.
-  The goal is to make the content more engaging, stylistically appropriate, and effective for the website.
-  Do not suggest any new features or functionality, only re-written content.
+**Your Task:**
+Based on all the provided context, rewrite the user's original content. The new version should be more engaging, clear, and stylistically aligned with the website's theme.
 
-  New Content Suggestion:
-  `,
+**IMPORTANT RULES:**
+1.  **Return only the suggested text.** Do not include any surrounding explanations, quotation marks, or labels.
+2.  The new content should be a direct replacement for the original. Match the approximate length and tone unless it's clearly inappropriate.
+3.  Focus only on rewriting the text. Do not suggest new features, components, or functionality.
+
+**New Content Suggestion:**`,
 });
 
 const modifyThemeContentFlow = ai.defineFlow(

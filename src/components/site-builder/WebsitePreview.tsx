@@ -14,6 +14,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Trash } from 'lucide-react';
 import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
 
 const componentMap = {
   Header,
@@ -25,11 +26,12 @@ const componentMap = {
 
 function SortableItem({ component }: { component: WebsiteComponent }) {
   const { isEditMode, deleteComponent, activePageId } = useSiteBuilder();
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: component.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: component.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    zIndex: isDragging ? 10 : 1,
   };
   
   const ComponentToRender = componentMap[component.type];
@@ -53,7 +55,7 @@ function SortableItem({ component }: { component: WebsiteComponent }) {
 
 
 export default function WebsitePreview() {
-  const { activePage, isEditMode, setComponents } = useSiteBuilder();
+  const { activePage, isEditMode, setComponents, isPreview } = useSiteBuilder();
 
   if (!activePage) {
     return (
@@ -77,7 +79,7 @@ export default function WebsitePreview() {
   const componentIds = activePage.components.map(c => c.id);
 
   const previewContent = (
-    <div className="bg-white dark:bg-neutral-950">
+    <div className="bg-background">
         {activePage.components.map((component) => (
              <SortableItem key={component.id} component={component} />
         ))}
@@ -85,23 +87,29 @@ export default function WebsitePreview() {
   );
 
   return (
-    <main className="h-full bg-muted/40 p-4">
+    <main className={cn(
+        "h-full bg-muted/40",
+        !isPreview && "p-4"
+      )}>
+      <div className={cn(
+          "mx-auto",
+          !isPreview && "max-w-7xl shadow-lg ring-1 ring-border rounded-md overflow-hidden"
+        )}>
         {isEditMode ? (
             <DndContext
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext items={componentIds} strategy={verticalListSortingStrategy}>
-                    <div className="max-w-7xl mx-auto shadow-lg ring-1 ring-border rounded-md">
-                        {previewContent}
-                    </div>
+                    {previewContent}
                 </SortableContext>
             </DndContext>
         ) : (
-             <div className="max-w-7xl mx-auto shadow-lg ring-1 ring-border rounded-md">
-                {previewContent}
-             </div>
+            <>
+              {previewContent}
+            </>
         )}
+       </div>
     </main>
   );
 }

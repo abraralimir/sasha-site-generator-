@@ -8,15 +8,26 @@ import {
 import BuilderHeader from './BuilderHeader';
 import SidebarControls from './SidebarControls';
 import WebsitePreview from './WebsitePreview';
+import { useSiteBuilder } from '@/hooks/useSiteBuilder';
+import { cn } from '@/lib/utils';
 
 export default function Editor() {
+  const { isPreview } = useSiteBuilder();
+
   return (
     <SidebarProvider>
-      <div className="grid h-screen w-full grid-rows-[auto_1fr] md:grid-cols-[auto_1fr]">
-        <BuilderHeader className="col-span-2" />
-        <Sidebar collapsible="icon" className="h-full max-h-full">
-          <SidebarControls />
-        </Sidebar>
+       <div className={cn(
+          "grid h-screen w-full grid-rows-[auto_1fr]",
+          !isPreview && "md:grid-cols-[auto_1fr]"
+        )}>
+        <BuilderHeader className={cn(!isPreview && "col-span-2")} />
+        
+        {!isPreview && (
+          <Sidebar collapsible="icon" className="h-full max-h-full hidden md:flex">
+            <SidebarControls />
+          </Sidebar>
+        )}
+        
         <SidebarInset className="overflow-auto">
           <WebsitePreview />
         </SidebarInset>

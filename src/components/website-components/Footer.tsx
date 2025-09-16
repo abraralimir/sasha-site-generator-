@@ -4,7 +4,7 @@ import EditableText from '../site-builder/EditableText';
 import type { WebsiteComponent } from '@/lib/types';
 
 export default function Footer(props: WebsiteComponent) {
-  const { id, content } = props;
+  const { id, type, content } = props;
 
   return (
     <footer className="bg-card text-card-foreground">
@@ -13,11 +13,11 @@ export default function Footer(props: WebsiteComponent) {
           <div className="flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-primary" />
             <span className="font-headline text-lg font-semibold">
-              <EditableText componentId={id} field="brandName" initialValue={content.brandName} as="span" />
+              <EditableText componentId={id} componentType={type} field="brandName" fieldDescription="Brand name in footer" initialValue={content.brandName} as="span" />
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            <EditableText componentId={id} field="copyright" initialValue={content.copyright} as="span" />
+            <EditableText componentId={id} componentType={type} field="copyright" fieldDescription="Copyright text" initialValue={content.copyright} as="span" />
           </p>
           <div className="flex items-center gap-4">
             <a href="#" className="text-muted-foreground hover:text-foreground">

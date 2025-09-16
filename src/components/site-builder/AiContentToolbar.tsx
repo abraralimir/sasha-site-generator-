@@ -11,20 +11,27 @@ import { modifyThemeContent } from '@/ai/flows/modify-theme-content';
 interface AiContentToolbarProps {
   children: React.ReactNode;
   componentId: string;
+  componentType: string;
   field: string;
+  fieldDescription: string;
   initialContent: string;
 }
 
-export function AiContentToolbar({ children, componentId, field, initialContent }: AiContentToolbarProps) {
-  const { updateComponentContent, activePageId } = useSiteBuilder();
+export function AiContentToolbar({ children, componentId, componentType, field, fieldDescription, initialContent }: AiContentToolbarProps) {
+  const { updateComponentContent, activePage } = useSiteBuilder();
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [suggestion, setSuggestion] = React.useState('');
   const [selectedText, setSelectedText] = React.useState('');
+  const [currentContent, setCurrentContent] = React.useState(initialContent);
+
+  React.useEffect(() => {
+    setCurrentContent(initialContent);
+  }, [initialContent]);
 
   const handleSelection = () => {
     const selection = window.getSelection();
-    if (selection && selection.toString().trim().length > 0) {
+    if (selection && selection.toString().trim().length > 5) {
       setSelectedText(selection.toString());
       setPopoverOpen(true);
     } else {
@@ -38,8 +45,10 @@ export function AiContentToolbar({ children, componentId, field, initialContent 
     try {
       const result = await modifyThemeContent({
         selectedContent: selectedText,
-        theme: 'Modern and Professional',
-        pageContext: 'Main page content',
+        theme: 'Modern and Professional', // This could be dynamic later
+        pageContext: activePage?.name || 'Main page',
+        componentContext: componentType,
+        fieldDescription: fieldDescription,
       });
       setSuggestion(result.suggestedContent);
     } catch (error) {
@@ -51,8 +60,10 @@ export function AiContentToolbar({ children, componentId, field, initialContent 
   };
 
   const applySuggestion = () => {
-    const newContent = initialContent.replace(selectedText, suggestion);
-    updateComponentContent(activePageId, componentId, field, newContent);
+    if (!activePage) return;
+    const newContent = currentContent.replace(selectedText, suggestion);
+    updateComponentContent(activePage.id, componentId, field, newContent);
+    setCurrentContent(newContent);
     setPopoverOpen(false);
     setSuggestion('');
     setSelectedText('');
@@ -60,7 +71,7 @@ export function AiContentToolbar({ children, componentId, field, initialContent 
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-      <PopoverTrigger asChild onMouseUp={handleSelection} onBlur={() => setPopoverOpen(false)}>
+      <PopoverTrigger asChild onMouseUp={handleSelection} onBlur={() => setTimeout(() => setPopoverOpen(false), 100)}>
         {children}
       </PopoverTrigger>
       <PopoverContent className="w-96">
@@ -68,7 +79,7 @@ export function AiContentToolbar({ children, componentId, field, initialContent 
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Improve with AI</h4>
             <p className="text-sm text-muted-foreground">
-              Selected: "{selectedText.length > 50 ? `${selectedText.substring(0, 50)}...` : selectedText}"
+              Selected: <span className="font-semibold italic">"{selectedText.length > 50 ? `${selectedText.substring(0, 50)}...` : selectedText}"</span>
             </p>
           </div>
           <Button onClick={generateSuggestion} disabled={isLoading}>
@@ -77,6 +88,7 @@ export function AiContentToolbar({ children, componentId, field, initialContent 
           </Button>
           {suggestion && (
             <div className="space-y-2">
+              <p className="text-sm font-medium">Suggestion:</p>
               <Textarea value={suggestion} onChange={(e) => setSuggestion(e.target.value)} rows={4} />
               <Button onClick={applySuggestion} className="w-full">Apply Suggestion</Button>
             </div>
