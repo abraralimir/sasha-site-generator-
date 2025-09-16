@@ -39,10 +39,10 @@ export default function LandingPage() {
   
   const { scrollYProgress } = useScroll({
     target: scrollContainerRef,
-    offset: ['start start', 'end start'],
+    offset: ['start start', 'end end'],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1.2, 1]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 2.5, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
   const y = useTransform(scrollYProgress, [0.9, 1], ['0%', '-100%']);
 
@@ -50,9 +50,7 @@ export default function LandingPage() {
   return (
     <div className="bg-black text-white overflow-x-hidden">
       <div className="relative h-screen w-full">
-        <div className="absolute inset-0 z-0">
-          <Scene />
-        </div>
+        <Scene />
         <div className="relative z-10 flex h-full items-center justify-center text-center">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -83,21 +81,21 @@ export default function LandingPage() {
       <div ref={scrollContainerRef} className="relative z-10 h-[150vh] bg-black">
         <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
             <motion.div style={{ y }} className="flex flex-col items-center text-center">
-                <motion.h2 style={{ scale, opacity }} className="font-headline text-5xl md:text-7xl font-bold">
-                    What it can do
-                </motion.h2>
+              <motion.h2 style={{ scale, opacity }} className="font-headline text-4xl md:text-7xl font-bold flex flex-col items-center">
+                <span>What it can do</span>
+              </motion.h2>
             </motion.div>
         </div>
       </div>
 
-      <section className="relative z-20 py-20 md:py-32 bg-black">
+      <section className="relative z-20 py-20 md:py-32 bg-black -mt-[50vh]">
         <div className="container mx-auto px-4">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto -mt-32 mb-16 md:mb-24"
+            className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
           >
              <p className="mt-4 text-lg text-neutral-300">
               Sasha Site Generator combines powerful AI with an intuitive editor to bring your ideas to life.
@@ -117,21 +115,35 @@ export default function LandingPage() {
                   className={`flex flex-col md:${direction} items-center gap-8 md:gap-16`}
                 >
                   <div className="md:w-1/2">
-                    <div className="flex items-center gap-4">
-                      <div className="bg-white/10 p-3 rounded-full">{feature.icon}</div>
-                      <h3 className="font-headline text-3xl font-bold">{feature.title}</h3>
-                    </div>
-                    <p className="mt-4 text-lg text-neutral-300">{feature.description}</p>
+                    <motion.div 
+                      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{ duration: 0.8 }}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="bg-white/10 p-3 rounded-full">{feature.icon}</div>
+                        <h3 className="font-headline text-3xl font-bold">{feature.title}</h3>
+                      </div>
+                      <p className="mt-4 text-lg text-neutral-300">{feature.description}</p>
+                    </motion.div>
                   </div>
                   <div className="md:w-1/2">
-                    <Image
-                      src={feature.imageUrl}
-                      alt={feature.title}
-                      width={800}
-                      height={600}
-                      data-ai-hint={feature.imageHint}
-                      className="rounded-xl shadow-2xl shadow-white/5 object-cover"
-                    />
+                    <motion.div
+                       initial={{ opacity: 0, scale: 0.9 }}
+                       whileInView={{ opacity: 1, scale: 1 }}
+                       viewport={{ once: true, amount: 0.5 }}
+                       transition={{ duration: 0.8 }}
+                    >
+                      <Image
+                        src={feature.imageUrl}
+                        alt={feature.title}
+                        width={800}
+                        height={600}
+                        data-ai-hint={feature.imageHint}
+                        className="rounded-xl shadow-2xl shadow-white/5 object-cover"
+                      />
+                    </motion.div>
                   </div>
                 </motion.div>
               );
