@@ -49,7 +49,7 @@ Your task is to generate CSS variables for a website theme based on a user's des
 
 **Instructions:**
 1.  Analyze the user's description to understand the mood, style, and color preferences.
-2.  Generate a complete set of HSL-based CSS variables for BOTH a light theme (`:root`) and a dark theme (`.dark`).
+2.  Generate a complete set of HSL-based CSS variables for BOTH a light theme (\`:root\`) and a dark theme (\`.dark\`).
 3.  The colors should be harmonious and accessible.
 4.  You MUST define values for all the following variables for both :root and .dark selectors:
     *   --background
