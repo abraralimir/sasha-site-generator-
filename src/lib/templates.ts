@@ -21,7 +21,7 @@ const templates: WebsiteTemplate[] = [
     imageHint: 'minimalist workspace',
     pages: [
       {
-        id: 'page-home',
+        id: 'page-home-blog',
         name: 'Home',
         slug: '/',
         components: [
@@ -69,7 +69,7 @@ const templates: WebsiteTemplate[] = [
     imageHint: 'modern storefront',
     pages: [
       {
-        id: 'page-home',
+        id: 'page-home-ecomm',
         name: 'Home',
         slug: '/',
         components: [
@@ -139,25 +139,26 @@ const templates: WebsiteTemplate[] = [
     imageHint: 'gourmet food plate',
     pages: [
        {
-        id: 'page-home',
+        id: 'page-home-resto',
         name: 'Home',
         slug: '/',
         components: [
           {
-            id: 'comp-header-1',
+            id: 'comp-header-resto-1',
             type: 'Header',
             content: {
               brandName: 'The Golden Spoon',
               navItems: [
+                { label: 'Home' },
                 { label: 'Menu' },
-                { label: 'Reservations' },
+                { label: 'About' },
                 { label: 'Contact' },
               ],
-              buttonText: 'Order Online',
+              buttonText: 'Reservations',
             },
           },
            {
-            id: 'comp-hero-1',
+            id: 'comp-hero-resto-1',
             type: 'Hero',
             content: {
               headline: 'Experience Culinary Excellence',
@@ -166,8 +167,17 @@ const templates: WebsiteTemplate[] = [
               button2Text: 'View Menu',
             },
           },
+           {
+            id: 'comp-cta-resto-1',
+            type: 'CallToAction',
+            content: {
+              headline: 'An Unforgettable Dining Experience',
+              subheading: 'Book your table online or give us a call. We look forward to serving you.',
+              buttonText: 'Book a Table',
+            },
+          },
           {
-            id: 'comp-footer-1',
+            id: 'comp-footer-resto-1',
             type: 'Footer',
             content: {
               brandName: 'The Golden Spoon',
@@ -175,9 +185,130 @@ const templates: WebsiteTemplate[] = [
             },
           },
         ],
+      },
+      {
+        id: 'page-menu-resto',
+        name: 'Menu',
+        slug: '/menu',
+        components: [
+            {
+                id: 'comp-header-resto-2',
+                type: 'Header',
+                content: {
+                  brandName: 'The Golden Spoon',
+                  navItems: [
+                    { label: 'Home' },
+                    { label: 'Menu' },
+                    { label: 'About' },
+                    { label: 'Contact' },
+                  ],
+                  buttonText: 'Reservations',
+                },
+            },
+            {
+                id: 'comp-features-resto-menu',
+                type: 'FeatureGrid',
+                content: {
+                    headline: 'Our Menu',
+                    subheading: 'Crafted with passion, from our kitchen to your table.',
+                    features: [
+                        { id: 'feature-1', title: 'Sizzling Steak', description: 'Perfectly grilled steak with a side of seasonal vegetables.' },
+                        { id: 'feature-2', title: 'Seafood Pasta', description: 'A delightful mix of fresh seafood in a creamy white wine sauce.' },
+                        { id: 'feature-3', title: 'Chocolate Lava Cake', description: 'A decadent dessert with a molten chocolate center.' },
+                    ],
+                },
+            },
+            {
+                id: 'comp-footer-resto-2',
+                type: 'Footer',
+                content: {
+                  brandName: 'The Golden Spoon',
+                  copyright: `© ${new Date().getFullYear()} The Golden Spoon. All rights reserved.`,
+                },
+            },
+        ]
+      },
+      {
+        id: 'page-about-resto',
+        name: 'About',
+        slug: '/about',
+        components: [
+            {
+                id: 'comp-header-resto-3',
+                type: 'Header',
+                content: {
+                  brandName: 'The Golden Spoon',
+                  navItems: [
+                    { label: 'Home' },
+                    { label: 'Menu' },
+                    { label: 'About' },
+                    { label: 'Contact' },
+                  ],
+                  buttonText: 'Reservations',
+                },
+            },
+            {
+                id: 'comp-hero-resto-about',
+                type: 'Hero',
+                content: {
+                    headline: 'Our Story',
+                    subheading: 'Founded in 2010, The Golden Spoon has been a family-owned establishment dedicated to authentic cuisine and warm hospitality.',
+                    button1Text: 'Meet the Team',
+                    button2Text: 'Our Philosophy',
+                }
+            },
+            {
+                id: 'comp-footer-resto-3',
+                type: 'Footer',
+                content: {
+                  brandName: 'The Golden Spoon',
+                  copyright: `© ${new Date().getFullYear()} The Golden Spoon. All rights reserved.`,
+                },
+            },
+        ]
+      },
+      {
+        id: 'page-contact-resto',
+        name: 'Contact',
+        slug: '/contact',
+        components: [
+            {
+                id: 'comp-header-resto-4',
+                type: 'Header',
+                content: {
+                  brandName: 'The Golden Spoon',
+                  navItems: [
+                    { label: 'Home' },
+                    { label: 'Menu' },
+                    { label: 'About' },
+                    { label: 'Contact' },
+                  ],
+                  buttonText: 'Reservations',
+                },
+            },
+            {
+                id: 'comp-cta-resto-contact',
+                type: 'CallToAction',
+                content: {
+                    headline: 'Get In Touch',
+                    subheading: 'We are located at 123 Culinary Lane, Foodie City. For reservations, please call (555) 123-4567 or use our online booking system.',
+                    buttonText: 'Book Online',
+                },
+            },
+            {
+                id: 'comp-footer-resto-4',
+                type: 'Footer',
+                content: {
+                  brandName: 'The Golden Spoon',
+                  copyright: `© ${new Date().getFullYear()} The Golden Spoon. All rights reserved.`,
+                },
+            },
+        ]
       }
     ]
   }
 ];
 
 export default templates;
+
+    
