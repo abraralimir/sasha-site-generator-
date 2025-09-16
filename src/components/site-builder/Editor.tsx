@@ -20,7 +20,7 @@ export default function Editor() {
           "grid h-screen w-full grid-rows-[auto_1fr]",
           !isPreview && "md:grid-cols-[auto_1fr]"
         )}>
-        <BuilderHeader className={cn(!isPreview && "col-span-2")} />
+        <BuilderHeader className={cn(!isPreview && "md:col-span-2")} />
         
         {!isPreview && (
           <Sidebar collapsible="icon" className="h-full max-h-full hidden md:flex">

@@ -82,7 +82,7 @@ export default function ${activePage.name.replace(/\s+/g, '')}Page() {
         className
         )}>
         <div className="flex items-center gap-4">
-          <SidebarTrigger className="md:hidden" />
+          <SidebarTrigger />
           <Sparkles className="h-6 w-6 text-primary" />
           <h1 className="font-headline text-xl font-semibold tracking-tight">Agentic SiteForge</h1>
         </div>
