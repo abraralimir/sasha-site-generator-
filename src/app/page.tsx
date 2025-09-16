@@ -44,10 +44,14 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-col items-center"
           >
-            <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
-              SASHA SITE GENERATOR
+            <h1 className="font-headline text-8xl md:text-9xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
+              SASHA
             </h1>
+            <p className="font-body text-2xl md:text-3xl text-neutral-300 opacity-80 tracking-widest mt-2">
+              SITE GENERATOR
+            </p>
             <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
               The AI-native way to build and deploy stunning websites.
             </p>
