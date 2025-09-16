@@ -27,9 +27,10 @@ export default function Scene() {
     );
     camera.position.z = 2;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(0x000000, 0); // Transparent background
     currentRef.appendChild(renderer.domElement);
 
     // --- Postprocessing ---
@@ -162,7 +163,6 @@ export default function Scene() {
       let target = new THREE.Color(fogColors[nextIndex]);
       let blended = current.clone().lerp(target, t);
       
-      renderer.setClearColor(blended);
       fogNoisePass.uniforms.fogColor.value.copy(blended);
       fogNoisePass.uniforms.time.value = time;
 
@@ -184,8 +184,10 @@ export default function Scene() {
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
+      if (renderer && renderer.domElement && currentRef.contains(renderer.domElement)) {
+        currentRef.removeChild(renderer.domElement);
+      }
       renderer.dispose();
-      currentRef.removeChild(renderer.domElement);
     };
   }, []);
 

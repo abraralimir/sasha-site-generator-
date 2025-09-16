@@ -36,40 +36,40 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <div className="text-white overflow-x-hidden bg-transparent">
-      <Scene />
-      <div className="relative z-10 bg-transparent">
-        <div className="flex h-screen items-center justify-center text-center">
+    <div className="text-white overflow-x-hidden bg-gradient-to-b from-black to-[#111111]">
+      <section className="relative h-[60vh] min-h-[500px] md:h-screen flex items-center justify-center text-center">
+        <Scene />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative z-10 flex flex-col items-center"
+        >
+          <h1 className="font-headline text-8xl md:text-9xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
+            SASHA
+          </h1>
+          <p className="font-body text-2xl md:text-3xl text-neutral-300 opacity-80 tracking-widest mt-2">
+            SITE GENERATOR
+          </p>
+          <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
+            The AI-native way to build and deploy stunning websites.
+          </p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col items-center"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-8"
           >
-            <h1 className="font-headline text-8xl md:text-9xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
-              SASHA
-            </h1>
-            <p className="font-body text-2xl md:text-3xl text-neutral-300 opacity-80 tracking-widest mt-2">
-              SITE GENERATOR
-            </p>
-            <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
-              The AI-native way to build and deploy stunning websites.
-            </p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-8"
-            >
-              <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
-                <Link href="/generate">
-                  Get Started
-                </Link>
-              </Button>
-            </motion.div>
+            <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
+              <Link href="/generate">
+                Get Started
+              </Link>
+            </Button>
           </motion.div>
-        </div>
+        </motion.div>
+      </section>
 
+      <div className="relative z-10">
         <section className="relative z-20 py-20 md:py-32 bg-transparent">
           <div className="container mx-auto px-4">
             <motion.div
