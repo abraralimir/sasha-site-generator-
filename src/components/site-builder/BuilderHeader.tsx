@@ -28,6 +28,10 @@ const generateComponentCode = (component: any) => {
       if (Array.isArray(value)) {
         return `${key}={${JSON.stringify(value, null, 2)}}`;
       }
+      // For objects like images, stringify them
+      if (typeof value === 'object' && value !== null) {
+        return `${key}={${JSON.stringify(value)}}`
+      }
       return `${key}={${JSON.stringify(value)}}`;
     })
     .join(' ');
