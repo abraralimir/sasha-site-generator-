@@ -103,7 +103,7 @@ function GeneratePageContent() {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center bg-[linear-gradient(to_bottom,_#000000,_#111111)] text-white p-4">
+    <div className="dark flex h-screen w-full flex-col items-center justify-center bg-[linear-gradient(to_bottom,_#000000,_#111111)] text-white p-4">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentStep}
