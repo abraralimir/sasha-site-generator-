@@ -147,7 +147,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className="rounded-[20px] border border-white/30 bg-white/15 p-8 backdrop-blur-md shadow-lg shadow-black/20 transition-all duration-300 ease-in-out hover:bg-white/25 hover:-translate-y-2"
+                  className="rounded-[20px] border border-white/10 bg-white/5 p-8 backdrop-blur-sm shadow-lg shadow-black/20 transition-all duration-300 ease-in-out hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
                 >
                   <div className="bg-white/10 p-3 rounded-full w-fit mb-4">{feature.icon}</div>
                   <h3 className="font-headline text-2xl font-bold">{feature.title}</h3>
@@ -193,7 +193,7 @@ export default function LandingPage() {
                   {testimonials.map((testimonial, index) => (
                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                       <div className="p-1 h-full">
-                        <Card className="h-full flex flex-col justify-between rounded-xl border-white/10 bg-white/5 text-white backdrop-blur-sm">
+                        <Card className="h-full flex flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 text-white backdrop-blur-sm shadow-lg shadow-black/20">
                           <CardContent className="p-6 flex flex-col gap-6">
                             <div className="flex">
                               {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-primary fill-primary" />)}
@@ -215,8 +215,8 @@ export default function LandingPage() {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="text-white -left-4 bg-white/10 border-white/20 hover:bg-white/20" />
-                <CarouselNext className="text-white -right-4 bg-white/10 border-white/20 hover:bg-white/20" />
+                <CarouselPrevious className="text-white -left-4 bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm" />
+                <CarouselNext className="text-white -right-4 bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm" />
               </Carousel>
              </motion.div>
           </div>
