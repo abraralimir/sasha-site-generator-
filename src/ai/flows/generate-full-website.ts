@@ -146,6 +146,14 @@ const generateFullWebsiteFlow = ai.defineFlow(
     name: 'generateFullWebsiteFlow',
     inputSchema: GenerateFullWebsiteInputSchema,
     outputSchema: GenerateFullWebsiteOutputSchema,
+    retry: {
+      maxAttempts: 3,
+      backoff: {
+        initialDelay: 2000,
+        maxDelay: 10000,
+        multiplier: 2,
+      },
+    },
   },
   async (input) => {
     const { output } = await prompt(input);
