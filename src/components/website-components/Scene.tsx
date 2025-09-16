@@ -115,16 +115,18 @@ export default function Scene(props: WebsiteComponent) {
             vec2 q = vec2(0.);
             q.x = fbm(st + 0.00*time);
             q.y = fbm(st + vec2(1.0));
-            
-            if (isInteractive) {
-                // Add mouse displacement for interactive mode
-                q.x += fbm(st + 0.1*mouse.x + 0.05*time);
-                q.y += fbm(st + 0.1*mouse.y + vec2(1.0));
-            }
 
             vec2 r = vec2(0.);
-            r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ 0.15*time );
-            r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ 0.126*time);
+            r.x = fbm(st + 1.0*q + vec2(1.7,9.2)+ 0.15*time);
+            r.y = fbm(st + 1.0*q + vec2(8.3,2.8)+ 0.126*time);
+
+            if (isInteractive) {
+                vec2 mouse_st = mouse;
+                mouse_st.x *= resolution.x / resolution.y;
+                float mouse_dist = distance(st, mouse_st);
+                r.x += fbm(st + 2.0 * q - mouse_dist * 0.1);
+                r.y += fbm(st - 1.5 * q + mouse_dist * 0.05);
+            }
 
             float f = fbm(st+r);
 
