@@ -48,7 +48,7 @@ export default function LandingPage() {
 
 
   return (
-    <div className="bg-black text-white overflow-x-hidden">
+    <div className="text-white overflow-x-hidden">
       <Scene />
       <div className="relative z-10">
         <div className="flex h-screen items-center justify-center text-center">
