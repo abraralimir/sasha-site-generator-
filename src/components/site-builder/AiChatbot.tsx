@@ -29,7 +29,7 @@ export default function AiChatbot() {
   React.useEffect(() => {
     if (isChatbotOpen && messages.length === 0) {
       setMessages([
-        { id: '1', sender: 'ai', text: "Hello! I can help you with tasks like creating new pages. Try 'blog: [your topic]' to generate a new blog post." },
+        { id: '1', sender: 'ai', text: "Hello! I'm your AI assistant. I can help you create content, modify your site, and more. What would you like to do? Try asking me to create a blog post!" },
       ]);
     }
   }, [isChatbotOpen, messages.length]);
@@ -45,6 +45,7 @@ export default function AiChatbot() {
     };
     
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputValue;
     setInputValue('');
 
     // Add a loading message from the AI
@@ -56,10 +57,12 @@ export default function AiChatbot() {
         isLoading: true,
     };
     setMessages(prev => [...prev, loadingMessage]);
+    
+    const lowerCaseInput = currentInput.toLowerCase();
 
     // Simple command parsing
-    if (inputValue.toLowerCase().startsWith('blog:')) {
-      const topic = inputValue.substring(5).trim();
+    if (lowerCaseInput.startsWith('blog:') || lowerCaseInput.includes('blog post') || lowerCaseInput.includes('write an article')) {
+      const topic = currentInput.replace(/blog:|write an article about|create a blog post about/i, '').trim();
       if (topic) {
         try {
           const result = await generateBlogPost({ topic });
@@ -69,7 +72,7 @@ export default function AiChatbot() {
           setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
             ...m,
             isLoading: false,
-            text: `I've created a new blog post titled "${newPage.name}". I'll switch to it now.`
+            text: `I've created a new blog post titled "${newPage.name}". I'll switch to it for you now.`
           } : m));
 
           setActivePageId(newPage.id);
@@ -83,7 +86,7 @@ export default function AiChatbot() {
            setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
             ...m,
             isLoading: false,
-            text: "Sorry, I encountered an error while trying to generate the blog post."
+            text: "I'm sorry, I had trouble generating the blog post. The AI model might be overloaded. Please try again in a moment."
           } : m));
            toast({
             variant: "destructive",
@@ -91,12 +94,25 @@ export default function AiChatbot() {
             description: "There was a problem creating the blog post.",
           });
         }
+      } else {
+        setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+          ...m,
+          isLoading: false,
+          text: "Of course! What topic should the blog post be about?"
+        } : m));
       }
-    } else {
+    } else if (lowerCaseInput.includes('rewrite') || lowerCaseInput.includes('improve this text')) {
        setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
         ...m,
         isLoading: false,
-        text: `Sorry, I can't do that yet. Try 'blog: [your topic]'.`
+        text: "I can help with that! Simply highlight any text on your page, and an 'Improve with AI' toolbar will appear. You can generate new suggestions from there."
+      } : m));
+    }
+    else {
+       setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+        ...m,
+        isLoading: false,
+        text: `I'm sorry, I can't do that just yet. Right now, I'm best at creating blog posts. Try asking: "Create a blog post about..."`
       } : m));
     }
   };
@@ -115,7 +131,7 @@ export default function AiChatbot() {
   return (
     <Sheet open={isChatbotOpen} onOpenChange={setIsChatbotOpen}>
       <SheetContent className="w-[400px] sm:w-[540px] flex flex-col p-0">
-        <SheetHeader className="p-6">
+        <SheetHeader className="p-6 border-b">
           <SheetTitle className="flex items-center gap-2">
             <Bot /> AI Assistant
           </SheetTitle>
@@ -131,13 +147,13 @@ export default function AiChatbot() {
                 )}
               >
                 {message.sender === 'ai' && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
                     <Bot className="h-5 w-5" />
                   </div>
                 )}
                 <div
                   className={cn(
-                    'max-w-[75%] rounded-lg p-3 text-sm',
+                    'max-w-[85%] rounded-lg p-3 text-sm shadow-sm',
                     message.sender === 'user'
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-muted'
@@ -149,12 +165,12 @@ export default function AiChatbot() {
                       <span>Thinking...</span>
                     </div>
                   ) : (
-                    <p>{message.text}</p>
+                    <p className="leading-relaxed">{message.text}</p>
                   )}
                 </div>
 
                 {message.sender === 'user' && (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground shrink-0">
                     <User className="h-5 w-5" />
                   </div>
                 )}
@@ -163,11 +179,16 @@ export default function AiChatbot() {
           </div>
         </ScrollArea>
         <div className="border-t p-4 bg-background">
+           <div className="mb-3 flex flex-wrap gap-2">
+            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('Create a blog post about ')}>New Blog Post</Badge>
+            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('How can I rewrite text?')}>Rewrite Text</Badge>
+            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('How do I change my theme?')}>Change Theme</Badge>
+          </div>
           <form onSubmit={handleSendMessage} className="flex items-center gap-2">
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="e.g., 'blog: the benefits of AI'"
+              placeholder="e.g., 'Create a blog post about AI...'"
               className="flex-1"
               autoFocus
             />
@@ -176,11 +197,6 @@ export default function AiChatbot() {
               <span className="sr-only">Send</span>
             </Button>
           </form>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('blog: ')}>New Blog Post</Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted">Change theme</Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted">Rewrite text</Badge>
-          </div>
         </div>
       </SheetContent>
     </Sheet>
