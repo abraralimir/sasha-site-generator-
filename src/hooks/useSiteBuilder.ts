@@ -10,11 +10,11 @@ interface SiteBuilderContextType {
   setPages: (pages: WebsitePage[]) => void;
   activePageId: string;
   setActivePageId: (id: string) => void;
-  addPage: (name: string) => void;
+  addPage: (newPage: WebsitePage) => void;
   updatePageName: (id: string, newName: string) => void;
   deletePage: (id: string) => void;
   activePage: WebsitePage | undefined;
-  addComponent: (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer') => void;
+  addComponent: (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article') => void;
   updateComponentContent: (pageId: string, componentId: string, field: string, value: any) => void;
   deleteComponent: (pageId: string, componentId: string) => void;
   setComponents: (pageId: string, components: WebsiteComponent[]) => void;
@@ -79,13 +79,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     debouncedSave(newPages);
   }
 
-  const addPage = (name: string) => {
-    const newPage: WebsitePage = {
-      id: `page-${Date.now()}`,
-      name,
-      slug: name.toLowerCase().replace(/\s+/g, '-'),
-      components: [],
-    };
+  const addPage = (newPage: WebsitePage) => {
     const newPages = [...pages, newPage];
     setPages(newPages);
     setActivePageId(newPage.id);
@@ -113,7 +107,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const addComponent = (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer') => {
+  const addComponent = (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article') => {
     const pageIndex = pages.findIndex(p => p.id === pageId);
     if (pageIndex === -1) return;
     

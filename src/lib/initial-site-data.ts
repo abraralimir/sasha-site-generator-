@@ -1,6 +1,6 @@
 import type { WebsiteComponent, WebsitePage } from './types';
 
-const defaultComponentContent = {
+const defaultComponentContent: Record<string, Record<string, any>> = {
   Header: {
     brandName: 'Agentic SiteForge',
     navItems: [{ label: 'Home' }, { label: 'About' }, { label: 'Contact' }],
@@ -20,6 +20,10 @@ const defaultComponentContent = {
       { id: 'feature-2', title: 'Drag & Drop Editor', description: 'Easily customize your site layout and design.' },
       { id: 'feature-3', title: 'Deploy Anywhere', description: 'Download your site and host it on any platform.' },
     ],
+  },
+  Article: {
+    title: 'My First Blog Post',
+    article: 'This is the beginning of a great article. Start writing in markdown!'
   },
   CallToAction: {
     headline: 'Ready to Get Started?',

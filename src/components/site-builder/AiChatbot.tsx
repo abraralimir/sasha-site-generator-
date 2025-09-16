@@ -9,6 +9,8 @@ import { Input } from '../ui/input';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Badge } from '../ui/badge';
+import { generateBlogPost } from '@/ai/flows/generate-blog-post';
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   id: string;
@@ -18,21 +20,21 @@ interface Message {
 }
 
 export default function AiChatbot() {
-  const { isChatbotOpen, setIsChatbotOpen } = useSiteBuilder();
+  const { isChatbotOpen, setIsChatbotOpen, pages, setPages, setActivePageId } = useSiteBuilder();
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [inputValue, setInputValue] = React.useState('');
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
-  // Mock initial message
   React.useEffect(() => {
     if (isChatbotOpen && messages.length === 0) {
       setMessages([
-        { id: '1', sender: 'ai', text: "Hello! I'm your AI assistant. How can I help you build your website today?" },
+        { id: '1', sender: 'ai', text: "Hello! I can help you with tasks like creating new pages. Try 'blog: [your topic]' to generate a new blog post." },
       ]);
     }
   }, [isChatbotOpen, messages.length]);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
@@ -42,16 +44,61 @@ export default function AiChatbot() {
       text: inputValue,
     };
     
-    // For now, we'll just mock a response.
-    const aiResponse: Message = {
-      id: (Date.now() + 1).toString(),
-      sender: 'ai',
-      text: `Okay, I will process this request: "${inputValue}"`,
-      isLoading: false
-    };
-
-    setMessages(prev => [...prev, userMessage, aiResponse]);
+    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
+
+    // Add a loading message from the AI
+    const loadingMessageId = (Date.now() + 1).toString();
+    const loadingMessage: Message = {
+        id: loadingMessageId,
+        sender: 'ai',
+        text: 'Thinking...',
+        isLoading: true,
+    };
+    setMessages(prev => [...prev, loadingMessage]);
+
+    // Simple command parsing
+    if (inputValue.toLowerCase().startsWith('blog:')) {
+      const topic = inputValue.substring(5).trim();
+      if (topic) {
+        try {
+          const result = await generateBlogPost({ topic });
+          const newPage = result.page;
+          setPages([...pages, newPage]);
+
+          setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+            ...m,
+            isLoading: false,
+            text: `I've created a new blog post titled "${newPage.name}". I'll switch to it now.`
+          } : m));
+
+          setActivePageId(newPage.id);
+          toast({
+            title: "Page Created",
+            description: `Successfully generated and added the page: ${newPage.name}`,
+          });
+
+        } catch (error) {
+           console.error('Error generating blog post:', error);
+           setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+            ...m,
+            isLoading: false,
+            text: "Sorry, I encountered an error while trying to generate the blog post."
+          } : m));
+           toast({
+            variant: "destructive",
+            title: "Generation Failed",
+            description: "There was a problem creating the blog post.",
+          });
+        }
+      }
+    } else {
+       setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+        ...m,
+        isLoading: false,
+        text: `Sorry, I can't do that yet. Try 'blog: [your topic]'.`
+      } : m));
+    }
   };
   
    React.useEffect(() => {
@@ -120,7 +167,7 @@ export default function AiChatbot() {
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="e.g., 'Change the headline to...'"
+              placeholder="e.g., 'blog: the benefits of AI'"
               className="flex-1"
               autoFocus
             />
@@ -130,8 +177,8 @@ export default function AiChatbot() {
             </Button>
           </form>
           <div className="mt-2 flex flex-wrap gap-2">
+            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('blog: ')}>New Blog Post</Badge>
             <Badge variant="outline" className="cursor-pointer hover:bg-muted">Change theme</Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted">Add a section</Badge>
             <Badge variant="outline" className="cursor-pointer hover:bg-muted">Rewrite text</Badge>
           </div>
         </div>

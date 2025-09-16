@@ -7,6 +7,7 @@ import Hero from '../website-components/Hero';
 import FeatureGrid from '../website-components/FeatureGrid';
 import CallToAction from '../website-components/CallToAction';
 import Footer from '../website-components/Footer';
+import Article from '../website-components/Article';
 import type { WebsiteComponent } from '@/lib/types';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -22,6 +23,7 @@ const componentMap = {
   FeatureGrid,
   CallToAction,
   Footer,
+  Article,
 };
 
 function SortableItem({ component }: { component: WebsiteComponent }) {
@@ -35,6 +37,14 @@ function SortableItem({ component }: { component: WebsiteComponent }) {
   };
   
   const ComponentToRender = componentMap[component.type];
+
+  if (!ComponentToRender) {
+    return (
+      <div className="bg-red-100 text-red-800 p-4 rounded-md">
+        Unknown component type: {component.type}
+      </div>
+    );
+  }
 
   return (
     <div ref={setNodeRef} style={style} className="relative group">
