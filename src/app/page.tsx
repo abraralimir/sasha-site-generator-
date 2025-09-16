@@ -113,18 +113,18 @@ export default function LandingPage() {
                         <p className="mt-4 text-lg text-neutral-300">{feature.description}</p>
                       </motion.div>
                     </div>
-                    <div className="md:w-1/2">
+                    <div className="md:w-1/2 w-full">
                       <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true, amount: 0.5 }}
                         transition={{ duration: 0.8 }}
+                        className="aspect-[4/3] relative"
                       >
                         <Image
                           src={feature.imageUrl}
                           alt={feature.title}
-                          width={800}
-                          height={600}
+                          fill
                           data-ai-hint={feature.imageHint}
                           className="rounded-xl shadow-2xl shadow-white/5 object-cover"
                         />
