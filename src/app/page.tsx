@@ -5,6 +5,7 @@ import { LayoutDashboard, Wand2, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Scene from '@/components/website-components/Scene';
 
 const features = [
   {
@@ -34,7 +35,6 @@ const features = [
 ];
 
 export default function LandingPage() {
-  const fogLayersRef = useRef<(HTMLDivElement | null)[]>([]);
   const scrollContainerRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
@@ -47,100 +47,36 @@ export default function LandingPage() {
   const y = useTransform(scrollYProgress, [0.9, 1], ['0%', '-100%']);
 
 
-  useEffect(() => {
-    const fogLayers = fogLayersRef.current.filter(Boolean) as HTMLDivElement[];
-    if (fogLayers.length === 0) return;
-
-    let centerX = window.innerWidth / 2;
-    let centerY = window.innerHeight / 2;
-    let mouseX = centerX;
-    let mouseY = centerY;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
-
-    const handleResize = () => {
-      centerX = window.innerWidth / 2;
-      centerY = window.innerHeight / 2;
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
-
-    const updateFogWithCursor = () => {
-        const deltaX = (mouseX - centerX) / centerX;
-        const deltaY = (mouseY - centerY) / centerY;
-
-        fogLayers.forEach((layer, index) => {
-            const baseZ = [-250, -150, -80][index] || 0;
-            const depthFactor = 1 - (index * 0.25);
-            const rotX = deltaY * 8 * depthFactor;
-            const rotY = -deltaX * 8 * depthFactor;
-            
-            const computedStyle = getComputedStyle(layer);
-            const animationTransform = computedStyle.transform.replace(/matrix3d\((.+)\)/, '').trim();
-
-            layer.style.transform = `${animationTransform} rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-        });
-
-        requestAnimationFrame(updateFogWithCursor);
-    };
-    
-    let frameId = requestAnimationFrame(updateFogWithCursor);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(frameId);
-    };
-  }, []);
-
   return (
-    <div className="bg-[linear-gradient(to_bottom,_#000000,_#111111)] text-white overflow-x-hidden">
-      <div className="scene-container">
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative z-10 text-center" style={{ transformStyle: 'preserve-3d', transform: 'translateZ(0px)' }}>
-          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
-            SASHA SITE GENERATOR
-          </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
-            The AI-native way to build and deploy stunning websites.
-          </p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8"
-          >
-            <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
-              <Link href="/generate">
-                  Get Started
-              </Link>
-            </Button>
-          </motion.div>
-        </motion.div>
-
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          <div
-            ref={(el) => (fogLayersRef.current[0] = el)}
-            className="fog-layer"
-            id="fog1"
-          ></div>
-          <div
-            ref={(el) => (fogLayersRef.current[1] = el)}
-            className="fog-layer"
-            id="fog2"
-          ></div>
-          <div
-            ref={(el) => (fogLayersRef.current[2] = el)}
-            className="fog-layer"
-            id="fog3"
-          ></div>
+    <div className="bg-black text-white overflow-x-hidden">
+      <div className="relative h-screen w-full">
+        <div className="absolute inset-0 z-0">
+          <Scene />
+        </div>
+        <div className="relative z-10 flex h-full items-center justify-center text-center">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}>
+            <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
+                SASHA SITE GENERATOR
+            </h1>
+            <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
+                The AI-native way to build and deploy stunning websites.
+            </p>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="mt-8"
+            >
+                <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
+                <Link href="/generate">
+                    Get Started
+                </Link>
+                </Button>
+            </motion.div>
+            </motion.div>
         </div>
       </div>
       
