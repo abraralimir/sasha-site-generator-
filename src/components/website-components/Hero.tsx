@@ -1,24 +1,22 @@
 'use client';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import EditableText from '../site-builder/EditableText';
 import type { WebsiteComponent } from '@/lib/types';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import EditableImage from '../site-builder/EditableImage';
 
 export default function Hero(props: WebsiteComponent) {
   const { id, type, content } = props;
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-background');
 
   return (
     <section className="relative h-[60vh] min-h-[400px] w-full text-white">
-      {heroImage && (
-        <Image
-          src={heroImage.imageUrl}
-          alt={heroImage.description}
+      {content.image && (
+        <EditableImage
+          componentId={id}
+          field="image"
+          initialValue={content.image}
           fill
           className="object-cover"
           priority
-          data-ai-hint={heroImage.imageHint}
         />
       )}
       <div className="absolute inset-0 bg-black/50" />

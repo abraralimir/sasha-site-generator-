@@ -46,6 +46,7 @@ const templates: WebsiteTemplate[] = [
               subheading: 'Welcome to my corner of the internet. Here, I share my musings on tech, design, and life.',
               button1Text: 'Read Latest',
               button2Text: 'About Me',
+              image: { src: 'https://picsum.photos/seed/template-blog-hero/1920/1080', alt: 'A clean desk setup', imageHint: 'minimalist desk'}
             },
           },
           {
@@ -94,6 +95,7 @@ const templates: WebsiteTemplate[] = [
               subheading: 'Discover our new collection of modern apparel. Free shipping on orders over $50.',
               button1Text: 'Shop Now',
               button2Text: 'View Collections',
+              image: { src: 'https://picsum.photos/seed/template-ecom-hero/1920/1080', alt: 'Fashionable clothes on a rack', imageHint: 'clothing rack boutique'}
             },
           },
           {
@@ -103,9 +105,9 @@ const templates: WebsiteTemplate[] = [
                 headline: 'Featured Products',
                 subheading: 'Check out our best-selling items this week.',
                 features: [
-                  { id: 'feature-1', title: 'Classic Tee', description: 'A comfortable and stylish tee for everyday wear.' },
-                  { id: 'feature-2', title: 'Denim Jacket', description: 'The perfect layering piece for any season.' },
-                  { id: 'feature-3', title: 'Leather Boots', description: 'Handcrafted boots that blend style and durability.' },
+                  { id: 'feature-1', title: 'Classic Tee', description: 'A comfortable and stylish tee for everyday wear.', image: { src: 'https://picsum.photos/seed/ecom-f1/400/400', alt: 'T-shirt', imageHint: 'white t-shirt product'} },
+                  { id: 'feature-2', title: 'Denim Jacket', description: 'The perfect layering piece for any season.', image: { src: 'https://picsum.photos/seed/ecom-f2/400/400', alt: 'Denim Jacket', imageHint: 'denim jacket model'} },
+                  { id: 'feature-3', title: 'Leather Boots', description: 'Handcrafted boots that blend style and durability.', image: { src: 'https://picsum.photos/seed/ecom-f3/400/400', alt: 'Leather boots', imageHint: 'leather boots pair'} },
                 ],
             },
           },
@@ -116,6 +118,7 @@ const templates: WebsiteTemplate[] = [
               headline: 'Join Our Newsletter',
               subheading: 'Get 10% off your first order and stay updated on new arrivals.',
               buttonText: 'Subscribe',
+              image: { src: 'https://picsum.photos/seed/ecom-cta/600/400', alt: 'Person typing on a laptop', imageHint: 'email marketing laptop'}
             },
           },
           {
@@ -165,6 +168,7 @@ const templates: WebsiteTemplate[] = [
               subheading: 'Authentic flavors, locally sourced ingredients. Book your table tonight.',
               button1Text: 'Make a Reservation',
               button2Text: 'View Menu',
+              image: { src: 'https://picsum.photos/seed/resto-hero/1920/1080', alt: 'Interior of a cozy restaurant', imageHint: 'restaurant interior dining'}
             },
           },
            {
@@ -174,6 +178,7 @@ const templates: WebsiteTemplate[] = [
               headline: 'An Unforgettable Dining Experience',
               subheading: 'Book your table online or give us a call. We look forward to serving you.',
               buttonText: 'Book a Table',
+              image: { src: 'https://picsum.photos/seed/resto-cta/600/400', alt: 'Chef preparing a dish', imageHint: 'chef plating food'}
             },
           },
           {
@@ -212,9 +217,9 @@ const templates: WebsiteTemplate[] = [
                     headline: 'Our Menu',
                     subheading: 'Crafted with passion, from our kitchen to your table.',
                     features: [
-                        { id: 'feature-1', title: 'Sizzling Steak', description: 'Perfectly grilled steak with a side of seasonal vegetables.' },
-                        { id: 'feature-2', title: 'Seafood Pasta', description: 'A delightful mix of fresh seafood in a creamy white wine sauce.' },
-                        { id: 'feature-3', title: 'Chocolate Lava Cake', description: 'A decadent dessert with a molten chocolate center.' },
+                        { id: 'feature-1', title: 'Sizzling Steak', description: 'Perfectly grilled steak with a side of seasonal vegetables.', image: { src: 'https://picsum.photos/seed/resto-f1/400/400', alt: 'A sizzling steak', imageHint: 'grilled steak plate'} },
+                        { id: 'feature-2', title: 'Seafood Pasta', description: 'A delightful mix of fresh seafood in a creamy white wine sauce.', image: { src: 'https://picsum.photos/seed/resto-f2/400/400', alt: 'A bowl of seafood pasta', imageHint: 'seafood pasta bowl'} },
+                        { id: 'feature-3', title: 'Chocolate Lava Cake', description: 'A decadent dessert with a molten chocolate center.', image: { src: 'https://picsum.photos/seed/resto-f3/400/400', alt: 'Chocolate lava cake', imageHint: 'chocolate lava cake'} },
                     ],
                 },
             },
@@ -255,6 +260,7 @@ const templates: WebsiteTemplate[] = [
                     subheading: 'Founded in 2010, The Golden Spoon has been a family-owned establishment dedicated to authentic cuisine and warm hospitality.',
                     button1Text: 'Meet the Team',
                     button2Text: 'Our Philosophy',
+                    image: { src: 'https://picsum.photos/seed/resto-about/1920/1080', alt: 'The restaurant founders', imageHint: 'restaurant owner portrait'}
                 }
             },
             {
@@ -293,6 +299,7 @@ const templates: WebsiteTemplate[] = [
                     headline: 'Get In Touch',
                     subheading: 'We are located at 123 Culinary Lane, Foodie City. For reservations, please call (555) 123-4567 or use our online booking system.',
                     buttonText: 'Book Online',
+                    image: { src: 'https://picsum.photos/seed/resto-contact/600/400', alt: 'A map showing location', imageHint: 'city map location'}
                 },
             },
             {
@@ -310,5 +317,3 @@ const templates: WebsiteTemplate[] = [
 ];
 
 export default templates;
-
-    

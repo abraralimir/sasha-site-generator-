@@ -10,3 +10,9 @@ export type WebsitePage = {
   slug: string;
   components: WebsiteComponent[];
 };
+
+export type ImageContent = {
+  src: string;
+  alt: string;
+  imageHint?: string;
+}

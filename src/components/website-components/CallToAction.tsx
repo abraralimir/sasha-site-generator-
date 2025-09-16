@@ -1,13 +1,11 @@
 'use client';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import EditableText from '../site-builder/EditableText';
 import type { WebsiteComponent } from '@/lib/types';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import EditableImage from '../site-builder/EditableImage';
 
 export default function CallToAction(props: WebsiteComponent) {
   const { id, type, content } = props;
-  const ctaImage = PlaceHolderImages.find(p => p.id === 'cta-image');
 
   return (
     <section className="bg-background py-12 md:py-20">
@@ -27,14 +25,14 @@ export default function CallToAction(props: WebsiteComponent) {
             </div>
           </div>
           <div className="mt-8 flex justify-center md:mt-0">
-            {ctaImage && (
-              <Image
-                src={ctaImage.imageUrl}
-                alt={ctaImage.description}
+            {content.image && (
+              <EditableImage
+                componentId={id}
+                field="image"
+                initialValue={content.image}
                 width={600}
                 height={400}
                 className="rounded-lg object-cover shadow-md"
-                data-ai-hint={ctaImage.imageHint}
               />
             )}
           </div>
