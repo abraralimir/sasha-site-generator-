@@ -36,9 +36,9 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <div className="text-white overflow-x-hidden">
+    <div className="text-white overflow-x-hidden bg-transparent">
       <Scene />
-      <div className="relative z-10">
+      <div className="relative z-10 bg-transparent">
         <div className="flex h-screen items-center justify-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
