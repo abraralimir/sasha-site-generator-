@@ -10,6 +10,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Badge } from '../ui/badge';
 import { generateBlogPost } from '@/ai/flows/generate-blog-post';
+import { generateFullWebsite } from '@/ai/flows/generate-full-website';
 import { useToast } from '@/hooks/use-toast';
 
 interface Message {
@@ -20,7 +21,8 @@ interface Message {
 }
 
 export default function AiChatbot() {
-  const { isChatbotOpen, setIsChatbotOpen, pages, setPages, setActivePageId } = useSiteBuilder();
+  const { pages, setPages, setActivePageId, addPage } = useSiteBuilder();
+  const { isChatbotOpen, setIsChatbotOpen } = useSiteBuilder();
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [inputValue, setInputValue] = React.useState('');
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
@@ -29,7 +31,7 @@ export default function AiChatbot() {
   React.useEffect(() => {
     if (isChatbotOpen && messages.length === 0) {
       setMessages([
-        { id: '1', sender: 'ai', text: "Hello! I'm your AI assistant. I can help you create content, modify your site, and more. What would you like to do? Try asking me to create a blog post!" },
+        { id: '1', sender: 'ai', text: "Hello! I'm your AI assistant. I can help you create content, build a whole new site, and more. What would you like to do?" },
       ]);
     }
   }, [isChatbotOpen, messages.length]);
@@ -48,7 +50,6 @@ export default function AiChatbot() {
     const currentInput = inputValue;
     setInputValue('');
 
-    // Add a loading message from the AI
     const loadingMessageId = (Date.now() + 1).toString();
     const loadingMessage: Message = {
         id: loadingMessageId,
@@ -60,60 +61,93 @@ export default function AiChatbot() {
     
     const lowerCaseInput = currentInput.toLowerCase();
 
-    // Simple command parsing
-    if (lowerCaseInput.startsWith('blog:') || lowerCaseInput.includes('blog post') || lowerCaseInput.includes('write an article')) {
-      const topic = currentInput.replace(/blog:|write an article about|create a blog post about/i, '').trim();
-      if (topic) {
-        try {
-          const result = await generateBlogPost({ topic });
-          const newPage = result.page;
-          setPages([...pages, newPage]);
+    try {
+      if (lowerCaseInput.startsWith('create a site') || lowerCaseInput.startsWith('build a site')) {
+          const description = currentInput.replace(/^(create a site|build a site)\s*(for|about)?\s*/i, '').trim();
+          
+          if (!description) {
+               setMessages(prev => prev.map(m => m.id === loadingMessageId ? { ...m, isLoading: false, text: "Of course! What is the website about? Please provide a name and a short description." } : m));
+              return;
+          }
 
-          setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
-            ...m,
-            isLoading: false,
-            text: `I've created a new blog post titled "${newPage.name}". I'll switch to it for you now.`
-          } : m));
+          // Simple parsing for site name
+          let siteName = "My New Site";
+          const nameMatch = description.match(/(?:named|called)\s+['"]?([^'"]+)['"]?/);
+          if (nameMatch) {
+            siteName = nameMatch[1];
+          }
 
-          setActivePageId(newPage.id);
+          setMessages(prev => prev.map(m => m.id === loadingMessageId ? { ...m, isLoading: false, text: `Got it. Building a new website called "${siteName}" based on your description. This may take a minute...` } : m));
+          
+          const result = await generateFullWebsite({ siteName, description });
+          
+          setPages(result.pages);
+          setActivePageId(result.pages[0].id);
+
+          setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'ai', text: "All done! Your new website has been generated and is ready to edit." }]);
           toast({
-            title: "Page Created",
-            description: `Successfully generated and added the page: ${newPage.name}`,
+            title: "Website Generated",
+            description: `Successfully created the website: ${siteName}`,
           });
 
-        } catch (error) {
-           console.error('Error generating blog post:', error);
-           setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+      } else if (lowerCaseInput.startsWith('blog:') || lowerCaseInput.includes('blog post') || lowerCaseInput.includes('write an article')) {
+        const topic = currentInput.replace(/blog:|write an article about|create a blog post about/i, '').trim();
+        if (topic) {
+            const result = await generateBlogPost({ topic });
+            const newPage = result.page;
+            addPage(newPage);
+
+            setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+                ...m,
+                isLoading: false,
+                text: `I've created a new blog post titled "${newPage.name}". I'll switch to it for you now.`
+            } : m));
+
+            setActivePageId(newPage.id);
+            toast({
+                title: "Page Created",
+                description: `Successfully generated and added the page: ${newPage.name}`,
+            });
+
+        } else {
+            setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
             ...m,
             isLoading: false,
-            text: "I'm sorry, I had trouble generating the blog post. The AI model might be overloaded. Please try again in a moment."
-          } : m));
-           toast({
-            variant: "destructive",
-            title: "Generation Failed",
-            description: "There was a problem creating the blog post.",
-          });
+            text: "Of course! What topic should the blog post be about?"
+            } : m));
         }
-      } else {
+      } else if (lowerCaseInput.includes('rewrite') || lowerCaseInput.includes('improve this text')) {
+        setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+            ...m,
+            isLoading: false,
+            text: "I can help with that! Simply highlight any text on your page, and an 'Improve with AI' toolbar will appear. You can generate new suggestions from there."
+        } : m));
+      } else if (lowerCaseInput.includes('theme')) {
+         setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+            ...m,
+            isLoading: false,
+            text: "You can change the theme using the 'AI Theme' panel in the left sidebar. Just describe the theme you want, and I'll apply it!"
+        } : m));
+      }
+      else {
+        setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
+            ...m,
+            isLoading: false,
+            text: `I'm sorry, I'm still learning. Right now, I'm best at creating full websites or individual blog posts. Try asking: "Build a site for a yoga studio" or "Create a blog post about..."`
+        } : m));
+      }
+    } catch (error) {
+        console.error('Chatbot action failed:', error);
         setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
           ...m,
           isLoading: false,
-          text: "Of course! What topic should the blog post be about?"
+          text: "I'm sorry, something went wrong. The AI model might be overloaded. Please try again in a moment."
         } : m));
-      }
-    } else if (lowerCaseInput.includes('rewrite') || lowerCaseInput.includes('improve this text')) {
-       setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
-        ...m,
-        isLoading: false,
-        text: "I can help with that! Simply highlight any text on your page, and an 'Improve with AI' toolbar will appear. You can generate new suggestions from there."
-      } : m));
-    }
-    else {
-       setMessages(prev => prev.map(m => m.id === loadingMessageId ? {
-        ...m,
-        isLoading: false,
-        text: `I'm sorry, I can't do that just yet. Right now, I'm best at creating blog posts. Try asking: "Create a blog post about..."`
-      } : m));
+        toast({
+          variant: "destructive",
+          title: "Action Failed",
+          description: "There was a problem completing your request.",
+        });
     }
   };
   
@@ -180,15 +214,15 @@ export default function AiChatbot() {
         </ScrollArea>
         <div className="border-t p-4 bg-background">
            <div className="mb-3 flex flex-wrap gap-2">
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('Create a blog post about ')}>New Blog Post</Badge>
+            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('Build a site for a tech startup called "Innovatech"')}>New Website</Badge>
+            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('Create a blog post about the future of AI')}>New Blog Post</Badge>
             <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('How can I rewrite text?')}>Rewrite Text</Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-muted" onClick={() => setInputValue('How do I change my theme?')}>Change Theme</Badge>
           </div>
           <form onSubmit={handleSendMessage} className="flex items-center gap-2">
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="e.g., 'Create a blog post about AI...'"
+              placeholder="e.g., 'Build a site for a coffee shop...'"
               className="flex-1"
               autoFocus
             />

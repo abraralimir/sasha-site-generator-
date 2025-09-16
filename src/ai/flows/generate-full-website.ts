@@ -10,8 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { WebsitePage, WebsiteComponent } from '@/lib/types';
-import { initialSiteData } from '@/lib/initial-site-data';
 
 const GenerateFullWebsiteInputSchema = z.object({
   siteName: z.string().describe('The desired name for the website.'),
@@ -57,14 +55,8 @@ const FooterContentSchema = z.object({
 
 const ComponentSchema = z.object({
   id: z.string(),
-  type: z.enum(['Header', 'Hero', 'FeatureGrid', 'CallToAction', 'Footer']),
-  content: z.union([
-      HeaderContentSchema,
-      HeroContentSchema,
-      FeatureGridContentSchema,
-      CallToActionContentSchema,
-      FooterContentSchema
-  ]),
+  type: z.enum(['Header', 'Hero', 'FeatureGrid', 'CallToAction', 'Footer', 'Article']),
+  content: z.record(z.any()),
 });
 
 const PageSchema = z.object({
@@ -128,6 +120,7 @@ You must return a valid JSON object matching the following Zod schema:
   - For feature IDs, use "feature-1", "feature-2", "feature-3".
 - **CallToAction:** \`{ headline: string, subheading: string, buttonText: string }\`
 - **Footer:** \`{ brandName: string, copyright: string }\`
+- **Article:** \`{ title: string, article: string }\`
 
 **Instructions:**
 1.  **Analyze the user's description** to understand the purpose and audience of the website.
@@ -146,14 +139,6 @@ const generateFullWebsiteFlow = ai.defineFlow(
     name: 'generateFullWebsiteFlow',
     inputSchema: GenerateFullWebsiteInputSchema,
     outputSchema: GenerateFullWebsiteOutputSchema,
-    retry: {
-      maxAttempts: 3,
-      backoff: {
-        initialDelay: 2000,
-        maxDelay: 10000,
-        multiplier: 2,
-      },
-    },
   },
   async (input) => {
     const { output } = await prompt(input);
@@ -164,6 +149,7 @@ const generateFullWebsiteFlow = ai.defineFlow(
 
     output!.pages.forEach(page => {
       page.id = `page-${Date.now()}-${pageIdCounter++}`;
+      page.slug = `/${page.name.toLowerCase().replace(/\s+/g, '-')}`;
       page.components.forEach(component => {
         component.id = `comp-${Date.now()}-${componentIdCounter++}`;
       });

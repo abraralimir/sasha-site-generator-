@@ -10,7 +10,7 @@ interface SiteBuilderContextType {
   setPages: (pages: WebsitePage[]) => void;
   activePageId: string;
   setActivePageId: (id: string) => void;
-  addPage: (newPage: WebsitePage) => void;
+  addPage: (page: WebsitePage) => void;
   updatePageName: (id: string, newName: string) => void;
   deletePage: (id: string) => void;
   activePage: WebsitePage | undefined;
@@ -88,7 +88,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
 
   const updatePageName = (id: string, newName: string) => {
     const newPages = pages.map((p) =>
-        p.id === id ? { ...p, name: newName, slug: newName.toLowerCase().replace(/\s+/g, '-') } : p
+        p.id === id ? { ...p, name: newName, slug: `/${newName.toLowerCase().replace(/\s+/g, '-')}` } : p
       );
     handleSetPages(newPages);
   };
