@@ -1,6 +1,6 @@
 'use client';
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { LayoutDashboard, Wand2, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -35,67 +35,49 @@ const features = [
 ];
 
 export default function LandingPage() {
-  const scrollContainerRef = useRef(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: scrollContainerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 2.5, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-  const y = useTransform(scrollYProgress, [0.9, 1], ['0%', '-100%']);
-
-
   return (
     <div className="text-white overflow-x-hidden">
       <Scene />
       <div className="relative z-10">
         <div className="flex h-screen items-center justify-center text-center">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
-                SASHA SITE GENERATOR
+              SASHA SITE GENERATOR
             </h1>
             <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
-                The AI-native way to build and deploy stunning websites.
+              The AI-native way to build and deploy stunning websites.
             </p>
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mt-8"
             >
-                <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
+              <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
                 <Link href="/generate">
-                    Get Started
+                  Get Started
                 </Link>
-                </Button>
+              </Button>
             </motion.div>
-            </motion.div>
-        </div>
-        
-        <div ref={scrollContainerRef} className="relative z-10 h-[150vh] bg-transparent">
-          <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-              <motion.div style={{ y }} className="flex flex-col items-center text-center">
-                <motion.h2 style={{ scale, opacity }} className="font-headline text-4xl md:text-7xl font-bold flex flex-col items-center">
-                  <span>What it can do</span>
-                </motion.h2>
-              </motion.div>
-          </div>
+          </motion.div>
         </div>
 
-        <section className="relative z-20 py-20 md:py-32 bg-transparent -mt-[50vh]">
+        <section className="relative z-20 py-20 md:py-32 bg-transparent">
           <div className="container mx-auto px-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.8 }}
               className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
             >
+              <h2 className="font-headline text-4xl md:text-5xl font-bold">
+                Powerful Features, Effortless Creation
+              </h2>
               <p className="mt-4 text-lg text-neutral-300">
                 Sasha Site Generator combines powerful AI with an intuitive editor to bring your ideas to life.
               </p>
@@ -114,7 +96,7 @@ export default function LandingPage() {
                     className={`flex flex-col md:${direction} items-center gap-8 md:gap-16`}
                   >
                     <div className="md:w-1/2">
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, amount: 0.5 }}
@@ -179,9 +161,9 @@ export default function LandingPage() {
               className="mt-8"
             >
               <Button size="lg" asChild className="font-semibold bg-white text-black hover:bg-neutral-200">
-                  <Link href="/generate">
-                      Get Started
-                  </Link>
+                <Link href="/generate">
+                  Get Started
+                </Link>
               </Button>
             </motion.div>
           </div>
