@@ -19,6 +19,7 @@ export default function Scene(props: WebsiteComponent) {
 
     const currentRef = containerRef.current;
     let mouse = new THREE.Vector2(0.5, 0.5);
+    const targetMouse = new THREE.Vector2(0.5, 0.5);
 
     // --- Setup ---
     const scene = new THREE.Scene();
@@ -112,12 +113,13 @@ export default function Scene(props: WebsiteComponent) {
             st.x *= resolution.x / resolution.y; // aspect ratio correction
             
             vec2 q = vec2(0.);
+            q.x = fbm(st + 0.00*time);
+            q.y = fbm(st + vec2(1.0));
+            
             if (isInteractive) {
-              q.x = fbm(st + mouse);
-              q.y = fbm(st + vec2(1.0) + mouse);
-            } else {
-              q.x = fbm(st + 0.00*time);
-              q.y = fbm(st + vec2(1.0));
+                // Add mouse displacement for interactive mode
+                q.x += fbm(st + 0.1*mouse.x + 0.05*time);
+                q.y += fbm(st + 0.1*mouse.y + vec2(1.0));
             }
 
             vec2 r = vec2(0.);
@@ -156,14 +158,14 @@ export default function Scene(props: WebsiteComponent) {
     const clock = new THREE.Clock();
     let animationFrameId: number;
 
-    // --- Mouse Listener ---
-    const handleMouseMove = (event: MouseEvent) => {
-        mouse.x = event.clientX / window.innerWidth;
-        mouse.y = 1.0 - (event.clientY / window.innerHeight);
+    // --- Mouse/Touch Listener ---
+    const handlePointerMove = (event: PointerEvent) => {
+        targetMouse.x = event.clientX / window.innerWidth;
+        targetMouse.y = 1.0 - (event.clientY / window.innerHeight);
     };
 
     if (isInteractive) {
-        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('pointermove', handlePointerMove);
     }
 
     // --- Animate ---
@@ -187,10 +189,11 @@ export default function Scene(props: WebsiteComponent) {
       
       fogNoisePass.uniforms.fogColor.value.copy(blended);
       fogNoisePass.uniforms.time.value = time;
+      
       if (isInteractive) {
-        fogNoisePass.uniforms.mouse.value.lerp(mouse, 0.05);
+        mouse.lerp(targetMouse, 0.05);
+        fogNoisePass.uniforms.mouse.value.copy(mouse);
       }
-
 
       composer.render();
     }
@@ -210,7 +213,7 @@ export default function Scene(props: WebsiteComponent) {
     return () => {
       window.removeEventListener("resize", handleResize);
       if (isInteractive) {
-        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('pointermove', handlePointerMove);
       }
       cancelAnimationFrame(animationFrameId);
       if (renderer && renderer.domElement && currentRef.contains(renderer.domElement)) {
