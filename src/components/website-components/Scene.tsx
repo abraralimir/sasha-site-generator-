@@ -1,10 +1,12 @@
 'use client';
 
 import * as React from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, extend } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { EffectComposer, ShaderPass } from '@react-three/postprocessing';
+import { EffectComposer, ShaderPass as ShaderPassImpl } from 'three-stdlib';
 import * as THREE from 'three';
+
+extend({ EffectComposer, ShaderPassImpl });
 
 const FogNoiseShader = {
   uniforms: {
@@ -133,10 +135,14 @@ function SceneContent() {
         <boxGeometry args={[4, 4, 4]} />
         <meshStandardMaterial color={0xffffff} emissive={0xffffff} emissiveIntensity={1} />
       </mesh>
-
-      <EffectComposer ref={composerRef}>
-        <ShaderPass args={[FogNoiseShader]} />
-      </EffectComposer>
+      
+      {/** @ts-ignore */}
+      <effectComposer ref={composerRef} args={[useFrame(({gl})=>gl)]}>
+        {/** @ts-ignore */}
+        <renderPass attach="passes-0" args={[useFrame(({scene})=>scene), useFrame(({camera})=>camera)]} />
+        {/** @ts-ignore */}
+        <shaderPassImpl attach="passes-1" args={[FogNoiseShader]} />
+      </effectComposer>
     </>
   );
 }

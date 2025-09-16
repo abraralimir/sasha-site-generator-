@@ -49,6 +49,7 @@
     "framer-motion": "^11.3.18",
     "genkit": "^1.14.1",
     "three": "^0.167.0",
+    "three-stdlib": "^2.30.4",
     "lodash": "^4.17.21",
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
