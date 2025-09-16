@@ -6,8 +6,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import type { WebsiteComponent } from '@/lib/types';
 
-export default function Scene() {
+export default function Scene(props: WebsiteComponent) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -191,5 +192,5 @@ export default function Scene() {
     };
   }, []);
 
-  return <div ref={containerRef} className='absolute inset-0 z-0' />;
+  return <div ref={containerRef} className='absolute inset-0 z-0 h-screen' />;
 }

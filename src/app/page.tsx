@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Scene from '@/components/website-components/Scene';
+import type { WebsiteComponent } from '@/lib/types';
+
 
 const features = [
   {
@@ -34,11 +36,17 @@ const features = [
   },
 ];
 
+const sceneComponent: WebsiteComponent = {
+  id: 'scene-landing',
+  type: 'Scene',
+  content: {}
+}
+
 export default function LandingPage() {
   return (
     <div className="text-white overflow-x-hidden bg-gradient-to-b from-black to-[#111111]">
       <section className="relative h-[60vh] min-h-[500px] md:h-screen flex items-center justify-center text-center">
-        <Scene />
+        <Scene {...sceneComponent} />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

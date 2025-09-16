@@ -40,6 +40,7 @@ const defaultComponentContent: Record<string, Record<string, any>> = {
         imageHint: 'team collaboration'
     }
   },
+  Scene: {},
   Footer: {
     brandName: 'Agentic SiteForge',
     copyright: `© ${new Date().getFullYear()} Agentic SiteForge. All rights reserved.`,

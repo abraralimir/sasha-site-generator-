@@ -14,7 +14,7 @@ interface SiteBuilderContextType {
   updatePageName: (id: string, newName: string) => void;
   deletePage: (id: string) => void;
   activePage: WebsitePage | undefined;
-  addComponent: (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article') => void;
+  addComponent: (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article' | 'Scene') => void;
   updateComponentContent: (pageId: string, componentId: string, field: string, value: any) => void;
   deleteComponent: (pageId: string, componentId: string) => void;
   setComponents: (pageId: string, components: WebsiteComponent[]) => void;
@@ -128,7 +128,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const addComponent = (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article') => {
+  const addComponent = (pageId: string, type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article' | 'Scene') => {
     if (!pageId) return;
     const pageIndex = pages.findIndex(p => p.id === pageId);
     if (pageIndex === -1) return;
@@ -136,7 +136,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     const newComponent: WebsiteComponent = {
       id: `comp-${type}-${Date.now()}`,
       type,
-      content: cloneDeep(initialSiteData.defaultComponentContent[type]),
+      content: cloneDeep(initialSiteData.defaultComponentContent[type] || {}),
     };
 
     const updatedPages = cloneDeep(pages);

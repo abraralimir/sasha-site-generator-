@@ -8,6 +8,7 @@ import FeatureGrid from '../website-components/FeatureGrid';
 import CallToAction from '../website-components/CallToAction';
 import Footer from '../website-components/Footer';
 import Article from '../website-components/Article';
+import Scene from '../website-components/Scene';
 import type { WebsiteComponent } from '@/lib/types';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -24,6 +25,7 @@ const componentMap = {
   CallToAction,
   Footer,
   Article,
+  Scene,
 };
 
 function SortableItem({ component }: { component: WebsiteComponent }) {

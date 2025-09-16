@@ -1,6 +1,6 @@
 export type WebsiteComponent = {
   id: string;
-  type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article';
+  type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article' | 'Scene';
   content: Record<string, any>;
 };
 

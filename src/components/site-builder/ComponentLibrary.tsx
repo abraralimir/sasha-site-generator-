@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useSiteBuilder } from '@/hooks/useSiteBuilder';
-import { LayoutTemplate, PlusCircle, Star, Type, GalleryVerticalEnd, Newspaper } from 'lucide-react';
+import { LayoutTemplate, PlusCircle, Star, Type, GalleryVerticalEnd, Newspaper, Waves } from 'lucide-react';
 
 const availableComponents = [
   { type: 'Header', name: 'Header', icon: <LayoutTemplate className="h-4 w-4" /> },
@@ -10,13 +10,14 @@ const availableComponents = [
   { type: 'FeatureGrid', name: 'Feature Grid', icon: <GalleryVerticalEnd className="h-4 w-4" /> },
   { type: 'Article', name: 'Article', icon: <Newspaper className="h-4 w-4" /> },
   { type: 'CallToAction', name: 'Call to Action', icon: <Type className="h-4 w-4" /> },
+  { type: 'Scene', name: 'Animated Scene', icon: <Waves className="h-4 w-4" /> },
   { type: 'Footer', name: 'Footer', icon: <LayoutTemplate className="h-4 w-4" /> },
 ];
 
 export default function ComponentLibrary() {
   const { addComponent, activePageId } = useSiteBuilder();
 
-  const handleAddComponent = (type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article') => {
+  const handleAddComponent = (type: 'Header' | 'Hero' | 'FeatureGrid' | 'CallToAction' | 'Footer' | 'Article' | 'Scene') => {
     addComponent(activePageId, type);
   };
 
