@@ -82,3 +82,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .glass-effect {
+    @apply bg-background/80 backdrop-blur-sm;
+  }
+  .dark .glass-effect {
+    @apply bg-background/60;
+  }
+}

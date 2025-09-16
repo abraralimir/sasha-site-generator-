@@ -82,7 +82,7 @@ export default function ${activePage.name.replace(/\s+/g, '')}Page() {
   return (
     <>
       <header className={cn(
-        "sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6",
+        "sticky top-0 z-20 flex h-16 items-center justify-between border-b px-4 sm:px-6 glass-effect",
         className
         )}>
         <div className="flex items-center gap-4">
