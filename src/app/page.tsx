@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { LayoutDashboard, Wand2, Zap } from 'lucide-react';
 import Link from 'next/link';
