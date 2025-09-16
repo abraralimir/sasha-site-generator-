@@ -22,6 +22,8 @@ interface SiteBuilderContextType {
   setIsEditMode: (isEditing: boolean) => void;
   isPreview: boolean;
   setIsPreview: (isPreviewing: boolean) => void;
+  isChatbotOpen: boolean;
+  setIsChatbotOpen: (isOpen: boolean) => void;
 }
 
 const SiteBuilderContext = createContext<SiteBuilderContextType | undefined>(undefined);
@@ -41,6 +43,7 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
   const [activePageId, setActivePageId] = useState<string>('');
   const [isEditMode, setIsEditMode] = useState(true);
   const [isPreview, setIsPreview] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -184,6 +187,8 @@ export const SiteBuilderProvider = ({ children }: { children: ReactNode }) => {
     setIsEditMode,
     isPreview,
     setIsPreview,
+    isChatbotOpen,
+    setIsChatbotOpen,
   };
 
   return React.createElement(SiteBuilderContext.Provider, { value: contextValue }, children);

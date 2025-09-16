@@ -8,6 +8,7 @@ import {
 import BuilderHeader from './BuilderHeader';
 import SidebarControls from './SidebarControls';
 import WebsitePreview from './WebsitePreview';
+import AiChatbot from './AiChatbot';
 import { useSiteBuilder } from '@/hooks/useSiteBuilder';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +31,7 @@ export default function Editor() {
         
         <SidebarInset className="overflow-auto">
           <WebsitePreview />
+          <AiChatbot />
         </SidebarInset>
       </div>
     </SidebarProvider>

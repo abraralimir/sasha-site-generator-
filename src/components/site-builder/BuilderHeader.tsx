@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Eye, Archive, Sparkles, Home, Code } from 'lucide-react';
+import { Eye, Archive, Sparkles, Home, Code, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -37,7 +37,7 @@ const generateComponentCode = (component: any) => {
 
 
 export default function BuilderHeader({className}: {className?: string}) {
-  const { isEditMode, setIsEditMode, isPreview, setIsPreview, activePage } = useSiteBuilder();
+  const { isEditMode, setIsEditMode, isPreview, setIsPreview, activePage, setIsChatbotOpen, isChatbotOpen } = useSiteBuilder();
   const [isDownloadModalOpen, setDownloadModalOpen] = React.useState(false);
   const [generatedCode, setGeneratedCode] = React.useState('');
 
@@ -97,6 +97,10 @@ export default function ${activePage.name.replace(/\s+/g, '')}Page() {
             <Switch id="edit-mode" checked={isEditMode} onCheckedChange={setIsEditMode} />
             <Label htmlFor="edit-mode" className="text-sm font-medium">Edit Mode</Label>
           </div>
+           <Button variant="outline" size="sm" onClick={() => setIsChatbotOpen(!isChatbotOpen)}>
+            <Bot className="mr-2 h-4 w-4" />
+            AI Chat
+          </Button>
           <Button variant="outline" size="sm" onClick={handlePreviewClick}>
             <Eye className="mr-2 h-4 w-4" />
             Preview
