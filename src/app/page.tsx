@@ -147,7 +147,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className="rounded-xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
+                  className="rounded-[20px] border border-white/30 bg-white/15 p-8 backdrop-blur-md shadow-lg shadow-black/20 transition-all duration-300 ease-in-out hover:bg-white/25 hover:-translate-y-2"
                 >
                   <div className="bg-white/10 p-3 rounded-full w-fit mb-4">{feature.icon}</div>
                   <h3 className="font-headline text-2xl font-bold">{feature.title}</h3>
@@ -262,5 +262,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
