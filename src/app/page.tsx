@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Wand2, Zap, Star, Smartphone, Laptop, Palette, TrendingUp } from 'lucide-react';
+import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud, DollarSign } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -16,61 +16,79 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Star } from 'lucide-react';
 
 
-const features = [
+const solutions = [
   {
-    icon: <Wand2 className="h-8 w-8 text-white" />,
-    title: 'AI-Powered Content',
-    description:
-      'Generate engaging text and find the perfect images with our integrated AI assistant.',
+    icon: <BrainCircuit className="h-8 w-8 text-white" />,
+    title: 'Automated ML Pipelines',
+    description: 'Sasha builds, deploys, and manages end-to-end machine learning pipelines, accelerating your data science initiatives.',
   },
   {
-    icon: <LayoutDashboard className="h-8 w-8 text-white" />,
-    title: 'Drag & Drop Editor',
-    description:
-      'Effortlessly build and customize your site with an intuitive, real-time editor.',
+    icon: <Cog className="h-8 w-8 text-white" />,
+    title: 'Business Process Automation',
+    description: 'Automate complex workflows across your organization, from finance to HR, increasing efficiency and reducing errors.',
   },
   {
-    icon: <Zap className="h-8 w-8 text-white" />,
-    title: 'Instant Deployment',
-    description:
-      'Download your complete website code and host it anywhere you want, with no restrictions.',
+    icon: <Bot className="h-8 w-8 text-white" />,
+    title: 'Autonomous Support Agents',
+    description: 'Deploy intelligent agents that resolve customer issues, understand context, and escalate seamlessly to human experts.',
   },
   {
-    icon: <div className="flex"><Smartphone className="h-8 w-8 text-white" /><Laptop className="h-8 w-8 text-white" /></div>,
-    title: 'Responsive Design',
-    description: 'Your site will look perfect on any device, from mobile phones to desktops.'
+    icon: <ShoppingCart className="h-8 w-8 text-white" />,
+    title: 'Intelligent Supply Chain',
+    description: 'Optimize logistics, forecast demand, and manage inventory in real-time with an AI that understands market dynamics.',
   },
   {
-    icon: <Palette className="h-8 w-8 text-white" />,
-    title: 'AI Theme Designer',
-    description: 'Describe your brand\'s style, and let our AI generate a unique color theme for you.'
+    icon: <DatabaseZap className="h-8 w-8 text-white" />,
+    title: 'Advanced Data Analytics',
+    description: 'Turn raw data into actionable intelligence. Sasha autonomously discovers patterns, generates reports, and provides insights.',
   },
   {
-    icon: <TrendingUp className="h-8 w-8 text-white" />,
-    title: 'SEO Optimized',
-    description: 'Built-in tools and suggestions to help you rank higher on search engines.'
+    icon: <Target className="h-8 w-8 text-white" />,
+    title: 'Hyper-Personalized Marketing',
+    description: 'Create and manage marketing campaigns that adapt to individual customer behavior, maximizing engagement and ROI.',
+  },
+  {
+    icon: <Factory className="h-8 w-8 text-white" />,
+    title: 'Predictive Maintenance',
+    description: 'For manufacturing and IoT, Sasha predicts equipment failure before it happens, minimizing downtime and saving costs.',
+  },
+  {
+    icon: <FileText className="h-8 w-8 text-white" />,
+    title: 'Automated Financial Reporting',
+    description: 'Connect to your financial systems to automate compliance, generate reports, and perform complex financial analysis.',
+  },
+   {
+    icon: <Cloud className="h-8 w-8 text-white" />,
+    title: 'Enterprise Integrations',
+    description: 'Sasha seamlessly connects with your existing enterprise tools, including SAP, Salesforce, Azure, AWS, and Google Cloud.',
+  },
+  {
+    icon: <DollarSign className="h-8 w-8 text-white" />,
+    title: 'Dynamic Resource Allocation',
+    description: 'Optimize cloud spending and workforce management by allowing Sasha to allocate resources based on real-time demand.',
   }
 ];
 
 const testimonials = [
   {
-    name: 'Sarah L.',
-    title: 'Freelance Designer',
-    quote: "Sasha Site Generator has been a game-changer for my client work. I can prototype and build stunning, AI-enhanced websites in a fraction of the time. The AI design assistant is pure magic!",
+    name: 'Dr. Alena Petrova',
+    title: 'CTO, QuantumLeap Dynamics',
+    quote: "Sasha is not a tool; it's a member of our team. It autonomously manages our entire ML pipeline from data ingestion on AWS to model deployment. The level of agentic capability is unlike anything we've ever seen.",
     avatar: 'https://picsum.photos/seed/avatar1/100/100'
   },
   {
-    name: 'David Chen',
-    title: 'Startup Founder',
-    quote: "As a non-technical founder, I was able to launch our company's website over a weekend. The intuitive editor and AI content tools made it possible. We're already seeing great results from the SEO suggestions.",
+    name: 'Marcus Thorne',
+    title: 'Head of Operations, Global Logistics Inc.',
+    quote: "We integrated Sasha with our SAP system to automate supply chain logistics. It has reduced our operational overhead by 30% and improved delivery times by anticipating disruptions. It's the core of our digital transformation.",
     avatar: 'https://picsum.photos/seed/avatar2/100/100'
   },
   {
-    name: 'Maria G.',
-    title: 'Restaurant Owner',
-    quote: "I never thought I'd be able to build our own website. Sasha made it simple. Our customers love the online menu and the site looks like it was designed by a professional agency.",
+    name: 'Jian Li',
+    title: 'VP of Engineering, FinSecure',
+    quote: "The business automation capabilities are extraordinary. Sasha handles our entire financial reconciliation process across multiple systems. It's fast, auditable, and has freed up our team to focus on strategic initiatives.",
     avatar: 'https://picsum.photos/seed/avatar3/100/100'
   }
 ];
@@ -121,7 +139,7 @@ export default function LandingPage() {
 
 
       <div className="relative z-10">
-        {/* --- Features Section --- */}
+        {/* --- Solutions Section --- */}
         <section className="relative z-20 py-20 md:py-32 bg-transparent">
           <div className="container mx-auto px-4">
             <motion.div
@@ -132,26 +150,26 @@ export default function LandingPage() {
               className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
             >
               <h2 className="font-headline text-4xl md:text-5xl font-bold">
-                Powerful Features, Effortless Creation
+                A New Class of Agentic AI
               </h2>
               <p className="mt-4 text-lg text-neutral-300">
-                Sasha Site Generator combines powerful AI with an intuitive editor to bring your ideas to life.
+                Sasha is not just a chatbot. It's a real-world agentic AI that autonomously runs complex business operations, builds ML pipelines, and integrates with high-level enterprise tools like SAP, Azure, AWS, and Google.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {solutions.map((solution, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  transition={{ duration: 0.8, delay: index * 0.05 }}
                   className="rounded-[20px] border border-white/10 bg-white/5 p-8 backdrop-blur-sm shadow-lg shadow-black/20 transition-all duration-300 ease-in-out hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
                 >
-                  <div className="bg-white/10 p-3 rounded-full w-fit mb-4">{feature.icon}</div>
-                  <h3 className="font-headline text-2xl font-bold">{feature.title}</h3>
-                  <p className="mt-4 text-neutral-300">{feature.description}</p>
+                  <div className="bg-white/10 p-3 rounded-full w-fit mb-4">{solution.icon}</div>
+                  <h3 className="font-headline text-2xl font-bold">{solution.title}</h3>
+                  <p className="mt-4 text-neutral-300">{solution.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -169,10 +187,10 @@ export default function LandingPage() {
               className="text-center max-w-3xl mx-auto mb-16"
             >
               <h2 className="font-headline text-4xl md:text-5xl font-bold">
-                Loved by Creators Everywhere
+                Trusted by Industry Leaders
               </h2>
               <p className="mt-4 text-lg text-neutral-300">
-                See what our users are saying about their experience.
+                See how top companies are leveraging Sasha to build the future of their business.
               </p>
             </motion.div>
 
@@ -232,7 +250,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
               className="font-headline text-4xl md:text-5xl font-bold"
             >
-              Ready to Build?
+              Ready for True Automation?
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -241,7 +259,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mt-4 text-lg max-w-2xl mx-auto text-neutral-300"
             >
-              Start creating your professional website in minutes. It's free to get started.
+              Contact us to learn how Sasha's agentic AI can transform your enterprise.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -252,7 +270,7 @@ export default function LandingPage() {
             >
               <Button size="lg" variant="glass" asChild>
                 <Link href="/">
-                  Begin Your Creation
+                  Request a Demo
                 </Link>
               </Button>
             </motion.div>
