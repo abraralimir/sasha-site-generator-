@@ -10,7 +10,7 @@ import type { WebsiteComponent } from '@/lib/types';
 
 export default function Scene(props: WebsiteComponent) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { isInteractive } = props.content;
+  const isInteractive = false;
 
   useEffect(() => {
     if (!containerRef.current || containerRef.current.children.length > 0) {
