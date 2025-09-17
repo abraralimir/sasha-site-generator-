@@ -52,9 +52,6 @@ export const metadata: Metadata = {
     images: [siteConfig.ogImage],
     creator: "@sasha_ai", // Replace with your Twitter handle
   },
-  icons: {
-    icon: "/favicon.ico", // Assuming you will add a favicon here
-  },
   manifest: `${siteConfig.url}/site.webmanifest`, // Assuming a webmanifest file
 };
 
