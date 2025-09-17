@@ -1,11 +1,9 @@
 'use client';
 
 import { useState, useEffect, Suspense, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { sashaChat } from '@/ai/flows/chat';
 import { micromark } from 'micromark';
 
@@ -15,9 +13,6 @@ type Message = {
 };
 
 function ChatPageContent() {
-  const searchParams = useSearchParams();
-  const initialMessage = searchParams.get('message');
-  
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,11 +27,15 @@ function ChatPageContent() {
   }, [messages, isLoading]);
 
   useEffect(() => {
+    // Read the initial message from sessionStorage
+    const initialMessage = sessionStorage.getItem('initialChatMessage');
     if (initialMessage) {
       handleSend(initialMessage);
+      // Clear the message from storage so it's not re-sent on refresh
+      sessionStorage.removeItem('initialChatMessage');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialMessage]);
+  }, []);
 
   const handleSend = async (messageText: string) => {
     if (!messageText.trim()) return;
@@ -71,14 +70,9 @@ function ChatPageContent() {
       </header>
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
         <div className="max-w-3xl mx-auto">
-          <AnimatePresence initial={false}>
             {messages.map((message, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
                 className={`flex items-start gap-4 my-4 ${
                   message.sender === 'user' ? 'justify-end' : 'justify-start'
                 }`}
@@ -92,12 +86,10 @@ function ChatPageContent() {
                   dangerouslySetInnerHTML={{ __html: micromark(message.text) }}
                 >
                 </div>
-              </motion.div>
+              </div>
             ))}
              {isLoading && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+              <div
                 className="flex items-start gap-4 my-4 justify-start"
               >
                 <div className="max-w-md p-4 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 rounded-bl-lg flex items-center gap-2">
@@ -105,9 +97,8 @@ function ChatPageContent() {
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse delay-150"></span>
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse delay-300"></span>
                 </div>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
            <div ref={messagesEndRef} />
         </div>
       </main>

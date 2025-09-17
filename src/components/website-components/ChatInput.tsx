@@ -13,9 +13,10 @@ export default function ChatInput() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
-    // Encode the message to make it safe for a URL
-    const encodedMessage = encodeURIComponent(message);
-    router.push(`/chat?message=${encodedMessage}`);
+    
+    // Use sessionStorage to pass the message without exposing it in the URL
+    sessionStorage.setItem('initialChatMessage', message);
+    router.push('/chat');
   };
 
   return (
