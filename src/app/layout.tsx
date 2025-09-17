@@ -4,9 +4,9 @@ import { Toaster } from '@/components/ui/toaster';
 
 const siteConfig = {
   name: "Sasha",
-  url: "https://sasha.site", // Replace with your actual domain
+  url: "https://sasha-agentic.vercel.app/",
   description: "The world's most advanced agentic AI for enterprise. Automate complex processes, build ML pipelines, and integrate with enterprise systems.",
-  ogImage: "https://picsum.photos/seed/sasha-og/1200/630", // A representative image for social sharing
+  ogImage: "https://picsum.photos/seed/sasha-og/1200/630",
 };
 
 
@@ -50,9 +50,10 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: "@sasha_ai", // Replace with your Twitter handle
+    creator: "@sasha_ai",
   },
-  manifest: `${siteConfig.url}/site.webmanifest`, // Assuming a webmanifest file
+  manifest: `${siteConfig.url}/site.webmanifest`,
+  icons: null,
 };
 
 export default function RootLayout({
