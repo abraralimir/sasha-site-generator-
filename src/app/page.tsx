@@ -110,7 +110,7 @@ export default function LandingPage() {
             className="mt-8"
           >
             <Button size="lg" variant="glass" asChild>
-              <Link href="/generate">
+              <Link href="/">
                 Get Started
               </Link>
             </Button>
@@ -251,7 +251,7 @@ export default function LandingPage() {
               className="mt-8"
             >
               <Button size="lg" variant="glass" asChild>
-                <Link href="/generate">
+                <Link href="/">
                   Begin Your Creation
                 </Link>
               </Button>
