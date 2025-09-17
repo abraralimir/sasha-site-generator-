@@ -4,10 +4,6 @@ import { useEffect } from 'react';
 
 export default function DevToolsBlocker() {
   useEffect(() => {
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-    };
-
     const handleKeyDown = (e: KeyboardEvent) => {
       // Block F12
       if (e.key === 'F12' || e.keyCode === 123) {
@@ -39,11 +35,9 @@ export default function DevToolsBlocker() {
       }
     };
 
-    document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
