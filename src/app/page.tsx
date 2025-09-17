@@ -86,7 +86,7 @@ export default function LandingPage() {
             SASHA
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
-            The world's most advanced agentic AI for enterprise.
+            Advanced agentic AI for enterprise.
           </p>
         </motion.div>
       </section>
