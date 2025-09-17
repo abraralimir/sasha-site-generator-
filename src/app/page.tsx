@@ -7,16 +7,6 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Scene from '@/components/website-components/Scene';
 import type { WebsiteComponent } from '@/lib/types';
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star } from 'lucide-react';
 
 
 const solutions = [
@@ -71,28 +61,6 @@ const solutions = [
     description: 'Optimize cloud spending and workforce management by allowing Sasha to allocate resources based on real-time demand.',
   }
 ];
-
-const testimonials = [
-  {
-    name: 'Dr. Alena Petrova',
-    title: 'CTO, QuantumLeap Dynamics',
-    quote: "Sasha is not a tool; it's a member of our team. It autonomously manages our entire ML pipeline from data ingestion on AWS to model deployment. The level of agentic capability is unlike anything we've ever seen.",
-    avatar: 'https://picsum.photos/seed/avatar1/100/100'
-  },
-  {
-    name: 'Marcus Thorne',
-    title: 'Head of Operations, Global Logistics Inc.',
-    quote: "We integrated Sasha with our SAP system to automate supply chain logistics. It has reduced our operational overhead by 30% and improved delivery times by anticipating disruptions. It's the core of our digital transformation.",
-    avatar: 'https://picsum.photos/seed/avatar2/100/100'
-  },
-  {
-    name: 'Jian Li',
-    title: 'VP of Engineering, FinSecure',
-    quote: "The business automation capabilities are extraordinary. Sasha handles our entire financial reconciliation process across multiple systems. It's fast, auditable, and has freed up our team to focus on strategic initiatives.",
-    avatar: 'https://picsum.photos/seed/avatar3/100/100'
-  }
-];
-
 
 const sceneComponent: WebsiteComponent = {
   id: 'scene-landing',
@@ -173,70 +141,6 @@ export default function LandingPage() {
                 </motion.div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* --- Testimonials Section --- */}
-        <section className="relative z-20 py-20 md:py-32 bg-transparent">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8 }}
-              className="text-center max-w-3xl mx-auto mb-16"
-            >
-              <h2 className="font-headline text-4xl md:text-5xl font-bold">
-                Trusted by Industry Leaders
-              </h2>
-              <p className="mt-4 text-lg text-neutral-300">
-                See how top companies are leveraging Sasha to build the future of their business.
-              </p>
-            </motion.div>
-
-             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent>
-                  {testimonials.map((testimonial, index) => (
-                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                      <div className="p-1 h-full">
-                        <Card className="h-full flex flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 text-white backdrop-blur-sm shadow-lg shadow-black/20">
-                          <CardContent className="p-6 flex flex-col gap-6">
-                            <div className="flex">
-                              {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-primary fill-primary" />)}
-                            </div>
-                            <p className="text-base text-neutral-200">"{testimonial.quote}"</p>
-                            <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                              <Avatar>
-                                <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                                <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                              </Avatar>
-                              <div>
-                                <p className="font-semibold">{testimonial.name}</p>
-                                <p className="text-sm text-neutral-400">{testimonial.title}</p>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="text-white -left-4 bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm" />
-                <CarouselNext className="text-white -right-4 bg-white/10 border-white/20 hover:bg-white/20 backdrop-blur-sm" />
-              </Carousel>
-             </motion.div>
           </div>
         </section>
 
