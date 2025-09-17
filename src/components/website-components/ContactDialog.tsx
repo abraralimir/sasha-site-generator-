@@ -39,26 +39,26 @@ export default function ContactDialog() {
           Request a Demo
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-black/50 border-white/20 text-white backdrop-blur-lg">
+      <DialogContent className="sm:max-w-[425px] bg-white/50 border-white/30 text-black backdrop-blur-lg">
         <DialogHeader>
           <DialogTitle>Contact Us</DialogTitle>
-          <DialogDescription className="text-neutral-300">
+          <DialogDescription className="text-neutral-800">
             Reach out to us via email, WhatsApp, or phone.
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-around py-4">
           <Link href="mailto:alimirabrar@gmail.com" passHref>
-            <Button variant="glass" size="icon" className="h-16 w-16 rounded-full">
+            <Button variant="outline" size="icon" className="h-16 w-16 rounded-full border-black/20 bg-black/10 text-black hover:bg-black/20">
               <Mail className="h-8 w-8" />
             </Button>
           </Link>
           <Link href="https://wa.me/919676649442" passHref>
-             <Button variant="glass" size="icon" className="h-16 w-16 rounded-full">
+             <Button variant="outline" size="icon" className="h-16 w-16 rounded-full border-black/20 bg-black/10 text-black hover:bg-black/20">
                 <WhatsAppIcon className="h-8 w-8"/>
              </Button>
           </Link>
           <Link href="tel:+919676649442" passHref>
-            <Button variant="glass" size="icon" className="h-16 w-16 rounded-full">
+            <Button variant="outline" size="icon" className="h-16 w-16 rounded-full border-black/20 bg-black/10 text-black hover:bg-black/20">
               <Phone className="h-8 w-8" />
             </Button>
           </Link>
