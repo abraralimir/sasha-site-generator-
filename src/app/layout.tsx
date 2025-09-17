@@ -97,7 +97,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="font-body antialiased bg-transparent">
+      <body className="font-body antialiased bg-transparent select-none">
         <DevToolsBlocker />
         {children}
         <Toaster />
