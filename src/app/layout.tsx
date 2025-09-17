@@ -3,9 +3,9 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 const siteConfig = {
-  name: "Sasha Site Generator",
+  name: "Sasha",
   url: "https://sasha.site", // Replace with your actual domain
-  description: "The AI-native way to build and deploy stunning websites. Generate content, design themes, and customize everything with an intuitive editor.",
+  description: "The world's most advanced agentic AI for enterprise. Automate complex processes, build ML pipelines, and integrate with enterprise systems.",
   ogImage: "https://picsum.photos/seed/sasha-og/1200/630", // A representative image for social sharing
 };
 
@@ -17,13 +17,16 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "AI website builder",
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Site generator",
-    "No-code website",
-    "AI content",
+    "Agentic AI",
+    "Enterprise AI",
+    "Business Process Automation",
+    "Machine Learning",
+    "ML Pipelines",
+    "SAP",
+    "Salesforce",
+    "Azure",
+    "AWS",
+    "Google Cloud",
   ],
   authors: [{ name: "Sasha AI" }],
   creator: "Sasha AI",
