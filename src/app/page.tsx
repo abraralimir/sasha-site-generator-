@@ -170,11 +170,16 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-8"
+              className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Button size="lg" variant="glass" asChild>
                 <Link href="/">
                   Request a Demo
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/">
+                  Talk to Sasha
                 </Link>
               </Button>
             </motion.div>
