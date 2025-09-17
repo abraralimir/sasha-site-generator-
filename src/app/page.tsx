@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud, DollarSign } from 'lucide-react';
+import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -65,12 +65,6 @@ const solutions = [
     title: 'Enterprise Integrations',
     description: 'Sasha seamlessly connects with your existing enterprise tools, including SAP, Salesforce, Azure, AWS, and Google Cloud.',
     href: '/solutions/enterprise-integrations',
-  },
-  {
-    icon: <DollarSign className="h-8 w-8 text-white" />,
-    title: 'Dynamic Resource Allocation',
-    description: 'Optimize cloud spending and workforce management by allowing Sasha to allocate resources based on real-time demand.',
-    href: '/solutions/dynamic-resource-allocation',
   }
 ];
 
