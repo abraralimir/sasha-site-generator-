@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, User, Bot } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { sashaChat } from '@/ai/flows/chat';
+import { micromark } from 'micromark';
 
 type Message = {
   text: string;
@@ -19,11 +21,21 @@ function ChatPageContent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isLoading]);
 
   useEffect(() => {
     if (initialMessage) {
       handleSend(initialMessage);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialMessage]);
 
   const handleSend = async (messageText: string) => {
@@ -32,15 +44,19 @@ function ChatPageContent() {
     const userMessage: Message = { text: messageText, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
-
-    // Simulate a bot response
-    setTimeout(() => {
-      const botMessage: Message = { text: `Sasha is thinking about: "${messageText}"`, sender: 'bot' };
-      setMessages(prev => [...prev, botMessage]);
-      setIsLoading(false);
-    }, 1500);
-
     setInput('');
+
+    try {
+      const botResponse = await sashaChat(messageText);
+      const botMessage: Message = { text: botResponse, sender: 'bot' };
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
+      const errorMessage: Message = { text: 'Sorry, I encountered an error. Please try again.', sender: 'bot' };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -67,25 +83,15 @@ function ChatPageContent() {
                   message.sender === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                {message.sender === 'bot' && (
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                )}
                 <div
-                  className={`max-w-md p-4 rounded-3xl ${
+                  className={`max-w-xl p-4 rounded-3xl prose prose-invert prose-sm ${
                     message.sender === 'user'
                       ? 'bg-primary text-primary-foreground rounded-br-lg'
                       : 'bg-white/10 backdrop-blur-md border border-white/20 rounded-bl-lg'
                   }`}
+                  dangerouslySetInnerHTML={{ __html: micromark(message.text) }}
                 >
-                  <p>{message.text}</p>
                 </div>
-                 {message.sender === 'user' && (
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                    <User className="w-6 h-6" />
-                  </div>
-                )}
               </motion.div>
             ))}
              {isLoading && (
@@ -94,9 +100,6 @@ function ChatPageContent() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-start gap-4 my-4 justify-start"
               >
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-6 h-6 text-primary-foreground" />
-                </div>
                 <div className="max-w-md p-4 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 rounded-bl-lg flex items-center gap-2">
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse delay-0"></span>
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse delay-150"></span>
@@ -105,6 +108,7 @@ function ChatPageContent() {
               </motion.div>
             )}
           </AnimatePresence>
+           <div ref={messagesEndRef} />
         </div>
       </main>
       <footer className="p-4 bg-black/50 border-t border-white/20">
