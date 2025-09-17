@@ -54,7 +54,7 @@ export default function EnterpriseIntegrationsPage() {
                 </div>
             </div>
 
-            <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+            <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
                 <div className="w-[48rem] max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 sm:w-[57rem]">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, connect our Shopify store to our NetSuite ERP.</p>
