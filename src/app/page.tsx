@@ -84,24 +84,9 @@ export default function LandingPage() {
           <h1 className="font-headline text-8xl md:text-9xl font-bold [text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
             SASHA
           </h1>
-          <p className="font-body text-2xl md:text-3xl text-neutral-300 opacity-80 tracking-widest mt-2">
-            SITE GENERATOR
-          </p>
           <p className="mt-4 text-lg md:text-xl max-w-2xl text-neutral-300 opacity-80">
-            The AI-native way to build and deploy stunning websites.
+            The world's most advanced agentic AI for enterprise.
           </p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8"
-          >
-            <Button size="lg" variant="glass" asChild>
-              <Link href="/">
-                Get Started
-              </Link>
-            </Button>
-          </motion.div>
         </motion.div>
       </section>
       {/* --- End Hero Section --- */}
@@ -122,7 +107,7 @@ export default function LandingPage() {
                 A New Class of Agentic AI
               </h2>
               <p className="mt-4 text-lg text-neutral-300">
-                Sasha is not just a chatbot. It's a real-world agentic AI that autonomously runs complex business operations, builds ML pipelines, and integrates with high-level enterprise tools like SAP, Azure, AWS, and Google.
+                Sasha is a real-world agentic AI that autonomously runs complex business operations, builds ML pipelines, and integrates with high-level enterprise tools like SAP, Azure, AWS, and Google.
               </p>
             </motion.div>
 
