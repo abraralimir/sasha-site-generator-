@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Scene from '@/components/website-components/Scene';
 import type { WebsiteComponent } from '@/lib/types';
+import ChatInput from '@/components/website-components/ChatInput';
 
 
 const solutions = [
@@ -172,16 +173,12 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <Button size="lg" variant="glass" asChild>
+              <Button size="lg" variant="default" asChild>
                 <Link href="/">
                   Request a Demo
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/">
-                  Talk to Sasha
-                </Link>
-              </Button>
+              <ChatInput />
             </motion.div>
           </div>
         </section>
