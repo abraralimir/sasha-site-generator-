@@ -67,7 +67,6 @@ const solutions = [
 const sceneComponent: WebsiteComponent = {
   id: 'scene-landing',
   type: 'Scene',
-  content: {}
 }
 
 export default function LandingPage() {
@@ -97,11 +96,7 @@ export default function LandingPage() {
         {/* --- Solutions Section --- */}
         <section className="relative z-20 py-20 md:py-32 bg-transparent">
           <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8 }}
+            <div
               className="text-center max-w-3xl mx-auto mb-16 md:mb-24"
             >
               <h2 className="font-headline text-4xl md:text-5xl font-bold">
@@ -110,22 +105,18 @@ export default function LandingPage() {
               <p className="mt-4 text-lg text-neutral-300">
                 Sasha is a real-world agentic AI that autonomously runs complex business operations, builds ML pipelines, and integrates with high-level enterprise tools like SAP, Azure, AWS, and Google.
               </p>
-            </motion.div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {solutions.map((solution, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.8, delay: index * 0.05 }}
                   className="rounded-[20px] border border-white/10 bg-white/5 p-8 backdrop-blur-sm shadow-lg shadow-black/20 transition-all duration-300 ease-in-out hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
                 >
                   <div className="bg-white/10 p-3 rounded-full w-fit mb-4">{solution.icon}</div>
                   <h3 className="font-headline text-2xl font-bold">{solution.title}</h3>
                   <p className="mt-4 text-neutral-300">{solution.description}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -134,34 +125,22 @@ export default function LandingPage() {
         {/* --- Final CTA Section --- */}
         <section className="relative z-20 py-20 md:py-32 text-center bg-transparent">
           <div className="container mx-auto px-4">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8 }}
+            <h2
               className="font-headline text-4xl md:text-5xl font-bold"
             >
               Ready for True Automation?
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+            </h2>
+            <p
               className="mt-4 text-lg max-w-2xl mx-auto text-neutral-300"
             >
               Contact us to learn how Sasha's agentic AI can transform your enterprise.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+            </p>
+            <div
               className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <ContactDialog />
               <ChatInput />
-            </motion.div>
+            </div>
           </div>
         </section>
       </div>
