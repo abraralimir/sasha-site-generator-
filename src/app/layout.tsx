@@ -7,8 +7,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 const siteConfig = {
   name: "Sasha",
   url: "https://sasha-agentic.vercel.app/",
-  description: "The world's most advanced agentic AI for enterprise. Automate complex processes, build ML pipelines, and integrate with enterprise systems.",
-  ogImage: "https://picsum.photos/seed/sasha-og/1200/630",
+  description: "Advanced agentic AI for enterprise. Automate complex processes, build ML pipelines, and integrate with enterprise systems.",
+  ogImage: "https://i.ibb.co/bF05W4v/sasha-og-red.png",
 };
 
 
@@ -55,7 +55,9 @@ export const metadata: Metadata = {
     creator: "@sasha_ai",
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
-  icons: '/favicon.svg',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
