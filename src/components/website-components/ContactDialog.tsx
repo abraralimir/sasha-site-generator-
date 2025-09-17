@@ -39,10 +39,10 @@ export default function ContactDialog() {
           Request a Demo
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-black/50 border-white/20 text-white">
+      <DialogContent className="sm:max-w-[425px] bg-black/50 border-white/20 text-white backdrop-blur-lg">
         <DialogHeader>
           <DialogTitle>Contact Us</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-neutral-300">
             Reach out to us via email, WhatsApp, or phone.
           </DialogDescription>
         </DialogHeader>
