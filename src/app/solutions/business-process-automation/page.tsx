@@ -1,4 +1,8 @@
+
 import { CheckCircle2 } from "lucide-react";
+import ContactDialog from "@/components/website-components/ContactDialog";
+import ChatInput from "@/components/website-components/ChatInput";
+
 
 const implementationSteps = [
     {
@@ -96,6 +100,29 @@ export default function BusinessProcessAutomationPage() {
                 </div>
             </div>
         </div>
+
+        {/* --- Final CTA Section --- */}
+        <section className="relative z-20 py-20 md:py-32 text-center bg-transparent">
+          <div className="container mx-auto px-4">
+            <h2
+              className="font-headline text-4xl md:text-5xl font-bold"
+            >
+              Ready for True Automation?
+            </h2>
+            <p
+              className="mt-4 text-lg max-w-2xl mx-auto text-neutral-300"
+            >
+              Contact us to learn how Sasha's agentic AI can transform your enterprise.
+            </p>
+            <div
+              className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
+              <ContactDialog />
+              <ChatInput />
+            </div>
+          </div>
+        </section>
+
     </div>
   )
 }
