@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Scene from '@/components/website-components/Scene';
 import type { WebsiteComponent } from '@/lib/types';
 import ChatInput from '@/components/website-components/ChatInput';
+import ContactDialog from '@/components/website-components/ContactDialog';
 
 
 const solutions = [
@@ -158,11 +159,7 @@ export default function LandingPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <Button size="lg" variant="default" asChild>
-                <Link href="/">
-                  Request a Demo
-                </Link>
-              </Button>
+              <ContactDialog />
               <ChatInput />
             </motion.div>
           </div>

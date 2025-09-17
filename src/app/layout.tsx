@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     creator: "@sasha_ai",
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
-  icons: '/favicon.ico',
+  icons: '/favicon.svg',
 };
 
 export default function RootLayout({
