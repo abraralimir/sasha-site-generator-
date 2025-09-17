@@ -28,49 +28,49 @@ const solutions = [
     icon: <Bot className="h-8 w-8 text-white" />,
     title: 'Autonomous Support Agents',
     description: 'Deploy intelligent agents that resolve customer issues, understand context, and escalate seamlessly to human experts.',
-    href: '#',
+    href: '/solutions/autonomous-support-agents',
   },
   {
     icon: <ShoppingCart className="h-8 w-8 text-white" />,
     title: 'Intelligent Supply Chain',
     description: 'Optimize logistics, forecast demand, and manage inventory in real-time with an AI that understands market dynamics.',
-    href: '#',
+    href: '/solutions/intelligent-supply-chain',
   },
   {
     icon: <DatabaseZap className="h-8 w-8 text-white" />,
     title: 'Advanced Data Analytics',
     description: 'Turn raw data into actionable intelligence. Sasha autonomously discovers patterns, generates reports, and provides insights.',
-    href: '#',
+    href: '/solutions/advanced-data-analytics',
   },
   {
     icon: <Target className="h-8 w-8 text-white" />,
     title: 'Hyper-Personalized Marketing',
     description: 'Create and manage marketing campaigns that adapt to individual customer behavior, maximizing engagement and ROI.',
-    href: '#',
+    href: '/solutions/hyper-personalized-marketing',
   },
   {
     icon: <Factory className="h-8 w-8 text-white" />,
     title: 'Predictive Maintenance',
     description: 'For manufacturing and IoT, Sasha predicts equipment failure before it happens, minimizing downtime and saving costs.',
-    href: '#',
+    href: '/solutions/predictive-maintenance',
   },
   {
     icon: <FileText className="h-8 w-8 text-white" />,
     title: 'Automated Financial Reporting',
     description: 'Connect to your financial systems to automate compliance, generate reports, and perform complex financial analysis.',
-    href: '#',
+    href: '/solutions/automated-financial-reporting',
   },
    {
     icon: <Cloud className="h-8 w-8 text-white" />,
     title: 'Enterprise Integrations',
     description: 'Sasha seamlessly connects with your existing enterprise tools, including SAP, Salesforce, Azure, AWS, and Google Cloud.',
-    href: '#',
+    href: '/solutions/enterprise-integrations',
   },
   {
     icon: <DollarSign className="h-8 w-8 text-white" />,
     title: 'Dynamic Resource Allocation',
     description: 'Optimize cloud spending and workforce management by allowing Sasha to allocate resources based on real-time demand.',
-    href: '#',
+    href: '/solutions/dynamic-resource-allocation',
   }
 ];
 
@@ -120,7 +120,7 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {solutions.map((solution, index) => (
-                <Link key={index} href={solution.href || '#'} className={solution.href === '#' ? 'pointer-events-none' : ''}>
+                <Link key={index} href={solution.href || '#'} >
                   <div
                     className="h-full rounded-[20px] border border-white/10 bg-white/5 p-8 backdrop-blur-sm shadow-lg shadow-black/20 transition-all duration-300 ease-in-out hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
                   >
