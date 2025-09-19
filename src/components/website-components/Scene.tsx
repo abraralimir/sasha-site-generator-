@@ -91,7 +91,7 @@ export default function Scene(props: WebsiteComponent) {
                     (d - b) * u.x * u.y;
         }
 
-        #define OCTAVES 4
+        #define OCTAVES 2
         float fbm (in vec2 st) {
             // Initial values
             float value = 0.0;
