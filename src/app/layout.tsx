@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import DevToolsBlocker from '@/components/website-components/DevToolsBlocker';
+
 
 
 const siteConfig = {
@@ -98,7 +98,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased bg-transparent">
-        <DevToolsBlocker />
+        
         {children}
         <Toaster />
         <Analytics />
