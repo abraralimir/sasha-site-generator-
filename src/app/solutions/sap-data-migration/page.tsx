@@ -2,40 +2,51 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Autonomous SAP Data Migration (ECC to S/4HANA)',
+  description: 'De-risk and accelerate your move to S/4HANA. Sasha is an agentic AI that automates complex SAP data migrations, ensuring speed, accuracy, and business continuity.',
+  openGraph: {
+    title: 'Sasha | Autonomous SAP Data Migration (ECC to S/4HANA)',
+    description: 'Reduce S/4HANA migration timelines by up to 50%. Sasha automates data analysis, cleansing, mock migrations, validation, and cutover for a risk-free transition.',
+  },
+};
 
 const implementationSteps = [
     {
       title: "1. Autonomous System Analysis",
-      description: "Sasha connects to your source SAP ECC and target S/4HANA systems. It autonomously analyzes your existing data structures, custom objects (Z-tables), and configurations."
+      description: "Sasha connects to your source SAP ECC and target S/4HANA systems. It autonomously analyzes your existing data structures, custom objects (Z-tables), ABAP code, and configurations to create a comprehensive migration blueprint."
     },
     {
       title: "2. Intelligent Data Mapping & Cleansing",
-      description: "The agent intelligently maps legacy data fields to the new S/4HANA structures, including the Business Partner model. It automatically identifies data quality issues, duplicates, and inconsistencies, then performs autonomous cleansing and enrichment."
+      description: "The agent intelligently maps legacy data fields to the new S/4HANA structures, including the complex Customer-Vendor Integration (CVI) for the Business Partner model. It automatically identifies data quality issues—such as duplicates, inconsistencies, and incompleteness—then performs autonomous cleansing and enrichment based on predefined rules."
     },
     {
-      title: "3. Mock Migration & Validation",
-      description: "Sasha performs multiple mock migration cycles in a sandbox environment. It generates detailed validation reports, comparing data sets post-migration to ensure 100% data integrity and business continuity."
+      title: "3. Iterative Mock Migrations & Validation",
+      description: "Sasha performs multiple, rapid mock migration cycles in a sandbox environment. After each cycle, it generates detailed validation reports, comparing financial totals, master data records, and transactional data post-migration to ensure 100% data integrity and business continuity."
     },
     {
-      title: "4. Optimized Cutover Planning",
-      description: "Based on mock run performance, Sasha generates an optimized cutover plan that minimizes business downtime. It creates a detailed, sequenced runbook for the final migration event."
+      title: "4. Optimized Cutover & Downtime Minimization",
+      description: "Based on mock run performance metrics, Sasha generates an optimized, hour-by-hour cutover plan that minimizes business downtime. It creates a detailed, sequenced runbook for the final migration event, orchestrating all technical and business tasks."
     },
     {
       title: "5. Automated Go-Live Execution",
-      description: "During the go-live weekend, Sasha executes the migration plan, providing real-time dashboard visibility into progress and autonomously handling exceptions."
+      description: "During the go-live weekend, Sasha executes the migration plan with precision. It provides a real-time dashboard showing progress down to the object level and autonomously handles exceptions or performance bottlenecks."
     },
     {
-        "title": "6. Post-Migration Reconciliation",
-        "description": "After cutover, Sasha performs a final, comprehensive reconciliation to provide a fully auditable report confirming that all data has been migrated successfully and accurately."
+        title: "6. Post-Migration Reconciliation & Auditing",
+        description: "After cutover, Sasha performs a final, comprehensive financial and operational reconciliation. It provides a fully auditable report confirming that all data has been migrated successfully, accurately, and in compliance with internal and external standards."
     }
 ];
 
 const benefits = [
-    "Reduce migration timelines by up to 50% compared to traditional methods.",
-    "Minimize business risk with automated data validation and reconciliation.",
+    "Reduce S/4HANA migration timelines by up to 50% compared to traditional methods.",
+    "Minimize business risk with automated data validation and financial reconciliation.",
     "Lower migration costs by dramatically reducing manual effort and reliance on consultants.",
-    "Ensure data quality in your new S/4HANA system from day one.",
-    "Gain full transparency and auditability throughout the entire migration process.",
+    "Ensure pristine data quality in your new S/4HANA system from day one.",
+    "Gain full transparency and auditability throughout the entire migration lifecycle.",
+    "Accelerate your time-to-value for the S/4HANA platform."
 ];
 
 export default function SAPDataMigrationPage() {
@@ -54,8 +65,8 @@ export default function SAPDataMigrationPage() {
                 </div>
             </div>
 
-            <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, plan and execute our migration from SAP ECC 6.0 to S/4HANA.</p>
                          <p className="text-green-400 animate-pulse">&gt; Analyzing ECC source system... Found 150+ custom Z-tables and 2.5TB of data.</p>
@@ -65,9 +76,9 @@ export default function SAPDataMigrationPage() {
                          <p className="text-green-400">&gt; ✅ Migration plan generated. Ready for cutover scheduling.</p>
                     </div>
                      <div className="p-8">
-                        <h3 className="text-xl font-bold font-headline mb-4 text-white">Use Case: Manufacturing Co. S/4HANA Transformation</h3>
+                        <h3 className="text-xl font-bold font-headline mb-4 text-white">Example Scenario: S/4HANA Transformation</h3>
                         <p className="text-neutral-300">
-                           A global manufacturing firm was facing a 24-month timeline and a multi-million dollar budget for their S/4HANA migration. Sasha was deployed to automate the process. It reduced the project timeline to just 9 months by autonomously handling data analysis, cleansing, and validation cycles. This resulted in a 60% cost saving and allowed the business to realize the benefits of S/4HANA over a year ahead of schedule.
+                           Imagine a global manufacturing firm facing a 24-month timeline and a multi-million dollar budget for their S/4HANA migration. By deploying Sasha, the project timeline can be reduced to just 9 months. The agent autonomously handles the repetitive and error-prone tasks of data analysis, cleansing, and validation cycles. This can result in a 60% cost saving and allow the business to realize the benefits of S/4HANA over a year ahead of schedule, without the typical risks associated with large-scale ERP transformations.
                         </p>
                      </div>
                 </div>

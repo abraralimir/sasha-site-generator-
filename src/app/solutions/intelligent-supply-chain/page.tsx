@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Intelligent & Autonomous Supply Chain',
+  description: 'From forecasting demand to managing logistics, Sasha is an autonomous agent that optimizes your entire supply chain, reducing costs and eliminating stockouts.',
+  openGraph: {
+    title: 'Sasha | Intelligent & Autonomous Supply Chain',
+    description: 'Optimize logistics, forecast demand, and manage inventory in real-time with an AI that understands market dynamics, prevents stockouts, and mitigates disruptions.',
+  },
+};
 
 const implementationSteps = [
     {
@@ -54,8 +64,8 @@ export default function IntelligentSupplyChainPage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, optimize inventory levels for our Q4 peak season.</p>
                          <p className="text-green-400 animate-pulse">&gt; Analyzing last 3 years of sales data and Q4 market trend reports...</p>

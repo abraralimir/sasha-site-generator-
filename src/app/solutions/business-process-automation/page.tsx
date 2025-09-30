@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AI Business Process Automation (BPA)',
+  description: 'Sasha moves beyond simple task automation to autonomously manage and optimize your most complex, cross-departmental business workflows.',
+  openGraph: {
+    title: 'Sasha | AI Business Process Automation (BPA)',
+    description: 'Automate complex workflows across finance, HR, and IT. Sasha discovers bottlenecks, generates workflows, and integrates with your existing tools like SAP and Salesforce.',
+  },
+};
 
 
 const implementationSteps = [
@@ -50,8 +60,8 @@ export default function BusinessProcessAutomationPage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, automate our new employee onboarding process.</p>
                          <p className="text-green-400 animate-pulse">&gt; Process discovery initiated... Mapping steps from HR (Workday) to IT (Okta).</p>

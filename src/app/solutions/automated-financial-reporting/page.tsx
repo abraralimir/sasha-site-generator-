@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Autonomous Financial Reporting',
+  description: 'Eliminate manual reporting errors and delays. Sasha connects to your financial systems to automate compliance, generate reports, and perform complex financial analysis.',
+  openGraph: {
+    title: 'Sasha | Autonomous Financial Reporting',
+    description: 'Automate your month-end close, ensure GAAP/IFRS compliance, and generate board-ready reports in hours, not weeks, with an agentic AI financial controller.',
+  },
+};
 
 const implementationSteps = [
     {
@@ -54,8 +64,8 @@ export default function AutomatedFinancialReportingPage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, prepare the EOM financial package for the board.</p>
                          <p className="text-green-400 animate-pulse">&gt; Connecting to SAP S/4HANA and multiple banking APIs...</p>

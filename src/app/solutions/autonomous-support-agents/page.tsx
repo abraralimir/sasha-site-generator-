@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Autonomous Support Agents',
+  description: 'Move beyond chatbots. Deploy truly autonomous agents that resolve complex customer issues, understand context, and integrate with your tools to take real action.',
+  openGraph: {
+    title: 'Sasha | Autonomous Support Agents',
+    description: 'Provide instant, 24/7 support with AI agents that can process refunds, update accounts, and escalate seamlessly to human experts when needed.',
+  },
+};
 
 const implementationSteps = [
     {
@@ -54,8 +64,8 @@ export default function AutonomousSupportAgentsPage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, handle incoming support ticket #78345.</p>
                          <p className="text-green-400 animate-pulse">&gt; Analyzing ticket: Customer 'John Doe' reports a billing discrepancy.</p>

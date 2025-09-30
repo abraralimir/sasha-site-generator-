@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Automated Machine Learning (ML) Pipelines',
+  description: 'Sasha transforms machine learning from a complex, manual process into an autonomous, self-optimizing engine for business growth.',
+  openGraph: {
+    title: 'Sasha | Automated Machine Learning (ML) Pipelines',
+    description: 'Build, deploy, and manage end-to-end ML pipelines in hours, not months. From data connection to MLOps, Sasha handles it all autonomously.',
+  },
+};
 
 
 const implementationSteps = [
@@ -54,8 +64,8 @@ export default function AutomatedMLPipelinesPage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                         <p>&gt; Sasha, build and deploy a demand forecasting model using our retail sales data from BigQuery.</p>
                         <p className="text-green-400 animate-pulse">&gt; Analyzing schema... 2.4M rows detected.</p>

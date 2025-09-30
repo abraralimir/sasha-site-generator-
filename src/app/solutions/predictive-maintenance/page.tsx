@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AI-Powered Predictive Maintenance',
+  description: 'Stop reacting to failures. For manufacturing and IoT, Sasha predicts equipment failure before it happens, minimizing downtime and saving millions.',
+  openGraph: {
+    title: 'Sasha | AI-Powered Predictive Maintenance',
+    description: 'Reduce unplanned downtime by up to 70%. Sasha uses IoT sensor data and ML to predict equipment failures, automate work orders, and optimize maintenance schedules.',
+  },
+};
 
 const implementationSteps = [
     {
@@ -54,8 +64,8 @@ export default function PredictiveMaintenancePage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, monitor the health of our CNC machine fleet.</p>
                          <p className="text-green-400 animate-pulse">&gt; Ingesting real-time vibration and temperature data from 250 machines...</p>

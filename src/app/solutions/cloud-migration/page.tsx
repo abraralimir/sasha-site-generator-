@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Autonomous Cloud Migration',
+  description: 'Seamlessly migrate applications, databases, and infrastructure from on-premise servers to any cloud provider (AWS, Azure, Google Cloud) with an autonomous AI agent.',
+  openGraph: {
+    title: 'Sasha | Autonomous Cloud Migration',
+    description: 'Execute complex on-prem to cloud or cloud-to-cloud migrations with an AI agent that handles discovery, planning, data replication, and validation.',
+  },
+};
 
 const implementationSteps = [
     {

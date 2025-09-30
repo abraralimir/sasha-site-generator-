@@ -2,6 +2,16 @@
 import { CheckCircle2 } from "lucide-react";
 import ContactDialog from "@/components/website-components/ContactDialog";
 import ChatInput from "@/components/website-components/ChatInput";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'AI Hyper-Personalized Marketing',
+  description: 'Stop batch-and-blast marketing. Sasha creates and manages campaigns that adapt to individual customer behavior, maximizing engagement and ROI.',
+  openGraph: {
+    title: 'Sasha | AI Hyper-Personalized Marketing',
+    description: 'Move to 1-to-1 personalization at scale. Sasha autonomously segments audiences, generates copy and images, and A/B tests campaigns for maximum ROI.',
+  },
+};
 
 const implementationSteps = [
     {
@@ -54,8 +64,8 @@ export default function HyperPersonalizedMarketingPage() {
                 </div>
             </div>
 
-            <div className="lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
-                <div className="w-full max-w-none rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10 lg:w-[57rem]">
+            <div className="w-full max-w-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:items-center lg:justify-center">
+                <div className="rounded-xl bg-neutral-900 shadow-xl ring-1 ring-neutral-400/10">
                     <div className="p-4 bg-neutral-800 text-xs text-neutral-400 font-mono">
                          <p>&gt; Sasha, create a campaign to win back customers who churned in the last 6 months.</p>
                          <p className="text-green-400 animate-pulse">&gt; Accessing CRM... Identified 2,500 churned customers.</p>
