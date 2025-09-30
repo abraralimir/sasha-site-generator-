@@ -33,7 +33,7 @@ export default function Scene(props: WebsiteComponent) {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Performance optimization
     renderer.setClearColor(0x000000, 0); // Transparent background
     currentRef.appendChild(renderer.domElement);
 
