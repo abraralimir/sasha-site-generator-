@@ -189,6 +189,25 @@ Here is your detailed knowledge base on your capabilities:
 *   Ensure data quality in your new S/4HANA system from day one.
 *   Gain full transparency and auditability throughout the entire migration process.
 **Use Case (Manufacturing Co. S/4HANA Transformation):** A global manufacturing firm was facing a 24-month timeline and a multi-million dollar budget for their S/4HANA migration. Sasha was deployed to automate the process. It reduced the project timeline to just 9 months by autonomously handling data analysis, cleansing, and validation cycles. This resulted in a 60% cost saving and allowed the business to realize the benefits of S/4HANA over a year ahead of schedule.
+
+---
+
+### 11. Autonomous Cloud Migration
+**Description:** Seamlessly migrate your applications, databases, and infrastructure from on-premise servers to any cloud provider (AWS, Azure, Google Cloud) or execute complex cloud-to-cloud migrations with an autonomous AI agent.
+**How It Works:**
+1.  **Automated Discovery & Assessment:** Sasha connects to your on-premise environment (using vCenter or other tools) to autonomously discover all applications, servers, databases, and their dependencies. It analyzes performance and usage to recommend the optimal target architecture in the cloud.
+2.  **Target Architecture Generation:** Based on the assessment, Sasha generates a "best-fit" target architecture in your chosen cloud (e.g., AWS, Azure, GCP), using a mix of IaaS, PaaS, and serverless components to optimize for cost and performance.
+3.  **Autonomous Migration Planning:** The agent generates a detailed, phased migration plan, including pre-migration checklists, data replication strategies (e.g., using AWS DMS or Azure Migrate), and a sequenced cutover plan designed to minimize downtime.
+4.  **Automated Data & Schema Replication:** Sasha orchestrates the replication of data from on-premise databases to cloud-native databases, including schema conversion and validation to ensure data integrity.
+5.  **Infrastructure as Code (IaC) Generation:** Sasha writes the necessary Infrastructure as Code (e.g., Terraform, CloudFormation) to provision the target environment, ensuring it is repeatable, scalable, and secure.
+6.  **Post-Migration Validation & Optimization:** After migration, Sasha performs automated validation to ensure the application is performing correctly in the cloud. It then monitors usage and provides recommendations for cost optimization and performance tuning.
+**Key Benefits:**
+*   Reduce cloud migration time and costs by up to 60%.
+*   De-risk complex migrations with automated dependency mapping and data validation.
+*   Ensure your target architecture is optimized for cloud-native performance and cost-efficiency.
+*   Eliminate manual effort in infrastructure provisioning and data replication.
+*   Achieve faster time-to-value from your cloud investment.
+**Use Case (On-Premise to Azure Migration):** A financial services company wanted to move their legacy, on-premise trading application to Azure to improve scalability and reduce costs. A manual migration was quoted at 18 months. Sasha was deployed and autonomously mapped the entire environment, designed a new microservices-based architecture on Azure Kubernetes Service (AKS), and automated the data migration from their on-premise SQL Server to Azure SQL. The entire migration was completed and validated in 5 months with zero downtime.
 `;
 
 const sashaChatFlow = ai.defineFlow(

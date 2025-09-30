@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud, Replace } from 'lucide-react';
+import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud, Replace, CloudUpload } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -71,6 +71,12 @@ const solutions = [
     title: 'SAP Data Migration',
     description: 'Automate complex SAP data migrations, such as ECC to S/4HANA, with an AI agent that handles discovery, cleansing, and validation.',
     href: '/solutions/sap-data-migration',
+  },
+  {
+    icon: <CloudUpload className="h-8 w-8 text-white" />,
+    title: 'Autonomous Cloud Migration',
+    description: 'Migrate legacy systems from on-premise servers to any cloud, or perform complex cloud-to-cloud migrations, fully autonomously.',
+    href: '/solutions/cloud-migration',
   }
 ];
 
