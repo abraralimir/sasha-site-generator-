@@ -1,13 +1,14 @@
+
 import type {NextConfig} from 'next';
 
 // Define a strict Content Security Policy (CSP)
 const contentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://assets.vercel.com;
+  default-src 'self' * 'unsafe-inline' 'unsafe-eval';
+  script-src 'self' * 'unsafe-eval' 'unsafe-inline' https://vercel.live https://assets.vercel.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
   img-src 'self' data: https://placehold.co https://images.unsplash.com https://picsum.photos https://i.ibb.co;
-  connect-src 'self' https://vitals.vercel-insights.com;
+  connect-src 'self' * https://vitals.vercel-insights.com;
   frame-src 'self' https://vercel.live;
   object-src 'none';
   base-uri 'self';
