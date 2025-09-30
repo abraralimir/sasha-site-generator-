@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud } from 'lucide-react';
+import { BrainCircuit, Cog, Bot, DatabaseZap, ShoppingCart, Target, Factory, FileText, Cloud, Replace } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -65,6 +65,12 @@ const solutions = [
     title: 'Enterprise Integrations',
     description: 'Sasha seamlessly connects with your existing enterprise tools, including SAP, Salesforce, Azure, AWS, and Google Cloud.',
     href: '/solutions/enterprise-integrations',
+  },
+  {
+    icon: <Replace className="h-8 w-8 text-white" />,
+    title: 'SAP Data Migration',
+    description: 'Automate complex SAP data migrations, such as ECC to S/4HANA, with an AI agent that handles discovery, cleansing, and validation.',
+    href: '/solutions/sap-data-migration',
   }
 ];
 
